@@ -2,7 +2,7 @@
 #ifndef __STU_LOGGER_H__
 #define __STU_LOGGER_H__
 /*
-6dof-stewduino
+stewy
 Copyright (C) 2018  Philippe Desrosiers
 
 This program is free software: you can redistribute it and/or modify

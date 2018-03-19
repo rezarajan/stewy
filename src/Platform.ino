@@ -1,5 +1,5 @@
 /*
-   6dof-stewduino
+   stewy
    Copyright (C) 2018  Philippe Desrosiers
 
    This program is free software: you can redistribute it and/or modify

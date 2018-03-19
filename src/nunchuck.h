@@ -1,7 +1,7 @@
 #ifndef __STU_NUNCHUCK_H__
 #define __STU_NUNCHUCK_H__
 /*
-   6dof-stewduino
+   stewy
    Copyright (C) 2018  Philippe Desrosiers
 
    This program is free software: you can redistribute it and/or modify
