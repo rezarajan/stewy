@@ -28,13 +28,13 @@ We want to be able to control some aspects of the project from a laptop during i
     * etc.
 
 ## Touchscreen
-We use a [4-wire resistive touchscreen] (https://tinyurl.com/ybsr2pmk), and [Adafruit Touchscreen library] (https://github.com/adafruit/Touch-Screen-Library) to determine the X/Y coordinates of the ball bearing.
+We use a [4-wire resistive touchscreen](https://tinyurl.com/ybsr2pmk), and [Adafruit Touchscreen library](https://github.com/adafruit/Touch-Screen-Library) to determine the X/Y coordinates of the ball bearing.
 
 ## PID control loop
 We use a Proportional / Integral / Derivative (PID) feedback loop (similar to control loops used in Drone firmware) to determine the error position between the ball bearing’s current position, and the setpoint position. This is used to determine the target orientation of the platform, in order to best return the ball to the setpoint position.
 
 ## Wiimote Nunchuck
-We use a wiimote [nunchuck] (https://en.wikipedia.org/wiki/Wii_Remote#Nunchuk) to change "modes" and control various aspects of the platform in real time. Mode changes are indicated by the LED blinking. The various modes can be cycled through in order by clicking the C button:
+We use a wiimote [nunchuck](https://en.wikipedia.org/wiki/Wii_Remote#Nunchuk) to change "modes" and control various aspects of the platform in real time. Mode changes are indicated by the LED blinking. The various modes can be cycled through in order by clicking the C button:
   * 1 blink: **SETPOINT** - The platform will attempt to keep the ball at a given X/Y setpoint. By default, this is in the middle of the plate. **This is the default mode at startup.** In this mode:
     * The joystick can be used to move the setpoint, with the platform correcting the position of the ball in real time.
     * Clicking the Z button (or resetting the Teensy) resets the setpoint to the middle of the plate.
@@ -47,7 +47,7 @@ We use a wiimote [nunchuck] (https://en.wikipedia.org/wiki/Wii_Remote#Nunchuk) t
     * The joystick Y-axis controls the speed of the movement.
     * Clicking the Z button stops the setpoint in place. While the setpoint is stopped, the Joystick can be used to change the radius of the circular movement. Clicking the Z button again resumes the circular movement.
     * Double-clicking the C button reverses the direction of the movement.
-  * 4 blinks: **EIGHT** - *(coming soon)* Similar to *CIRCLE*, the setpoint will move in a [Lemniscate of Bernoulli] (https://en.wikipedia.org/wiki/Lemniscate_of_Bernoulli), centered on the center of the platform. In this mode:
+  * 4 blinks: **EIGHT** - *(coming soon)* Similar to *CIRCLE*, the setpoint will move in a [Lemniscate of Bernoulli](https://en.wikipedia.org/wiki/Lemniscate_of_Bernoulli), centered on the center of the platform. In this mode:
     * The joystick Y-axis controls the speed of the movement.
     * Clicking the Z button stops the setpoint in place. Clicking the Z button again resumes the figure-eight movement.
     * Double-clicking the C button reverses the direction of the movement.
