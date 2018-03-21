@@ -109,11 +109,11 @@ bool Platform::moveTo(float *servoValues, int sway, int surge, int heave, float 
     _sp_roll = roll;
     _sp_yaw = yaw;
 
-    //scale values by aggro.
+    //scale values by prescalar.
     for (int i = 0; i < 6; i++) {
       int diff = servoValues[i]-SERVO_MID_ANGLE;
 
-      servoValues[i] = SERVO_MID_ANGLE + (diff * AGGRO);
+      servoValues[i] = SERVO_MID_ANGLE + (diff * SERVO_PRESCALAR);
       servoValues[i] = constrain(servoValues[i],SERVO_MIN_ANGLE, SERVO_MAX_ANGLE);
       }
   } else {

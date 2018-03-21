@@ -32,7 +32,7 @@
   are not servo-related, without killing the battery, browning out the USB,
   or overheating the servos.
 */
-// #define ENABLE_SERVOS
+#define ENABLE_SERVOS
 
 #define LOG_LEVEL       Logger::DEBUG
 
@@ -113,7 +113,8 @@ const int HEAVE_BAND = MAX_HEAVE - MIN_HEAVE;
 Blinker blinker = Blinker::attach(LED_BUILTIN, true, 150, 150);
 
 /*
-  Define a deadband for the nunchuck joystick. If we're in the deadband during CONTROL mode, the platform will move to the HOME position.
+  Define a deadband for the nunchuck joystick. If we're in the deadband during
+  CONTROL mode, the platform will move to the HOME position.
 */
 xy_coordf deadBand = {2,2};     //sort of using xy_coordf for the wrong thing here...
 
@@ -216,10 +217,10 @@ float sp_radius;                 //radius, for modes that need a radius. For CIR
 
 /*
   Prescalar to the output of the platform IK solution for each servo.
-  NOTE: Even with aggro, the solution will never fall outside the range of
+  NOTE: Even with prescalar set, the solution will never fall outside the range of
   [SERVO_ANGLE_MIN .. SERVO_ANGLE_MAX]
 */
-#define AGGRO       1.5F
+#define SERVO_PRESCALAR       1.5F
 
 /*
    There are three axes of symmetry (AXIS1, AXIS2, AXIS3). Looking down on the
