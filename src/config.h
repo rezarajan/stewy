@@ -27,11 +27,11 @@
 #define ENABLE_TOUCHSCREEN        //Comment out, to omit Touchscreen code.
 
 /*
-  Comment out, to disable Servos. Servos can get hot if you don't set
-  them to a "safe" value. Commenting this line out allows to test things that
-  are not servo-related, without killing the battery, browning out the USB,
-  or overheating the servos.
-*/
+   Comment out, to disable Servos. Servos can get hot if you don't set
+   them to a "safe" value. Commenting this line out allows to test things that
+   are not servo-related, without killing the battery, browning out the USB,
+   or overheating the servos.
+ */
 #define ENABLE_SERVOS
 
 #define LOG_LEVEL       Logger::DEBUG
@@ -48,37 +48,38 @@ const int SERVO_MID_ANGLE = SERVO_MIN_ANGLE + (SERVO_MAX_ANGLE - SERVO_MIN_ANGLE
 const int SERVO_MID_US = SERVO_MIN_US + (SERVO_MAX_US - SERVO_MIN_US) / 2;
 
 const int SERVO_TRIM[] = {  //trim values, in microseconds, AFTER reversing
-  0,
-  20,
-  0,
-  135,
-  0,
-  120
+    0,
+    20,
+    0,
+    135,
+    0,
+    120
 };
 
 const int SERVO_PINS[] = {  //pin numbers for each servo signal.
-  0,
-  1,
-  2,
-  3,
-  4,
-  5
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
 };
 
 
-typedef struct xy_coordf {
-  float x;  //-1.0 to 1.0
-  float y;   //-1.0 to 1.0
+typedef struct xy_coordf
+{
+    float x;     //-1.0 to 1.0
+    float y;     //-1.0 to 1.0
 } xy_coordf;
 
 const xy_coordf DEFAULT_SETPOINT = {0,0};
 
 /*
-  NOTE: The actual "min" and "max" for each DOF are interdependent. eg:
-  If the platform is pitched by some amount, the roll min/max will be physically
-  different than what's defined here. These are just the absolute maximums under
-  ideal conditions (eg: max for roll when pitch is zero).
-*/
+   NOTE: The actual "min" and "max" for each DOF are interdependent. eg:
+   If the platform is pitched by some amount, the roll min/max will be physically
+   different than what's defined here. These are just the absolute maximums under
+   ideal conditions (eg: max for roll when pitch is zero).
+ */
 
 #define MIN_PITCH  -20
 #define MAX_PITCH  23
@@ -105,73 +106,73 @@ const int SURGE_BAND = MAX_SURGE - MIN_SURGE;
 const int HEAVE_BAND = MAX_HEAVE - MIN_HEAVE;
 
 /*
-* ======== Nunchuck Settings ==========
-*/
+ * ======== Nunchuck Settings ==========
+ */
 
 #ifdef ENABLE_NUNCHUCK
 
 Blinker blinker = Blinker::attach(LED_BUILTIN, true, 150, 150);
 
 /*
-  Define a deadband for the nunchuck joystick. If we're in the deadband during
-  CONTROL mode, the platform will move to the HOME position.
-*/
+   Define a deadband for the nunchuck joystick. If we're in the deadband during
+   CONTROL mode, the platform will move to the HOME position.
+ */
 xy_coordf deadBand = {2,2};     //sort of using xy_coordf for the wrong thing here...
 
 /*
-  Specifies the maximum time between button clicks that are interpreted as a
-  double-click. If the time between clicks exceeds this value, the clicks are
-  interpreted as single clicks.
-*/
+   Specifies the maximum time between button clicks that are interpreted as a
+   double-click. If the time between clicks exceeds this value, the clicks are
+   interpreted as single clicks.
+ */
 #define NUNCHUCK_DBLCLICK_THRESHOLD_MS  500
 
 /*
-  Delay between movements of the Setpoint, in SQUARE mode.
-*/
+   Delay between movements of the Setpoint, in SQUARE mode.
+ */
 #define SQUARE_DELAY_MS 1000
 
 /*
-  Epsilon values for floating point comparison of Nunchuck tilt values.
-*/
+   Epsilon values for floating point comparison of Nunchuck tilt values.
+ */
 // #define TILT_EPSILON 0.001
 
 //Different "modes" for the platform.
 enum Mode {
-  SETPOINT,   // setpoint position is in the middle of the platform.
-  CONTROL,    // X/Y position of the wiichuck directly controls the position of the platform.
-  CIRCLE,     // setpoint position moves in a circle. Direction (CW / CCW) is controlled by the "direction" field.
-  EIGHT,      // setpoint position moves in a figure eight. Direction (CW / CCW) is controlled by the "direction" field
-  SQUARE      // setpoint cycles through corners of a square (manually controlled by the Z button).
+    SETPOINT,     // setpoint position is in the middle of the platform.
+    CONTROL,     // X/Y position of the wiichuck directly controls the position of the platform.
+    CIRCLE,     // setpoint position moves in a circle. Direction (CW / CCW) is controlled by the "direction" field.
+    EIGHT,     // setpoint position moves in a figure eight. Direction (CW / CCW) is controlled by the "direction" field
+    SQUARE     // setpoint cycles through corners of a square (manually controlled by the Z button).
 };
 
 char const * modeStrings[] = {
-  "SETPOINT",
-  "CONTROL",
-  "CIRCLE",
-  "EIGHT",
-  "SQUARE"
+    "SETPOINT",
+    "CONTROL",
+    "CIRCLE",
+    "EIGHT",
+    "SQUARE"
 };
 
 enum ControlSubMode {
-  PITCH_ROLL, // Joystick controls the angle of the platform.
-  HEAVE_YAW,  // Joystick Y axis controls the up-down movement of the platform, X axis controls the rotation of the platform.
-  SWAY_SURGE  // Joystick X axis controls sway, Y axis contrls surge.
+    PITCH_ROLL,     // Joystick controls the angle of the platform.
+    HEAVE_YAW,     // Joystick Y axis controls the up-down movement of the platform, X axis controls the rotation of the platform.
+    SWAY_SURGE     // Joystick X axis controls sway, Y axis contrls surge.
 };
 
 char const * subModeStrings[] = {
-  "PITCH_ROLL",
-  "HEAVE_YAW",
-  "SWAY_SURGE"
+    "PITCH_ROLL",
+    "HEAVE_YAW",
+    "SWAY_SURGE"
 };
 
 enum Direction {
-  CW,
-  CCW
+    CW,
+    CCW
 };
 
 char const * directionStrings[] = {
-  "CW",
-  "CCW"
+    "CW",
+    "CCW"
 };
 
 #define DEFAULT_MODE        SETPOINT
@@ -190,8 +191,8 @@ float sp_radius;                 //radius, for modes that need a radius. For CIR
 
 
 /*
-* ======== Platform / Servo Settings ==========
-*/
+ * ======== Platform / Servo Settings ==========
+ */
 
 // Geometry of the platform.
 
@@ -206,20 +207,20 @@ float sp_radius;                 //radius, for modes that need a radius. For CIR
 #define Z_HOME          148       //Default Z height of the platform (above the base), with servo arms horizontal. Formally, the distance from the plane described by the collection of servo pinion gear centers, to the plane described by the collection of platform / pushrod joints.
 
 /*
-  If defined, the IK algorithm will "slam" values to min or max when it encounters
-  an asymptotic condition. That is, if the solution requires that the servo (e.g.) extend
-  beyond its physical limits, it will set the servo angle to MAX.
+   If defined, the IK algorithm will "slam" values to min or max when it encounters
+   an asymptotic condition. That is, if the solution requires that the servo (e.g.) extend
+   beyond its physical limits, it will set the servo angle to MAX.
 
-  If NOT defined, the IK algorithm will simply refuse to modify ANY servo endpoints
-  when it encounters an asymptotic condition.
-*/
+   If NOT defined, the IK algorithm will simply refuse to modify ANY servo endpoints
+   when it encounters an asymptotic condition.
+ */
 // #define SLAM
 
 /*
-  Prescalar to the output of the platform IK solution for each servo.
-  NOTE: Even with prescalar set, the solution will never fall outside the range of
-  [SERVO_ANGLE_MIN .. SERVO_ANGLE_MAX]
-*/
+   Prescalar to the output of the platform IK solution for each servo.
+   NOTE: Even with prescalar set, the solution will never fall outside the range of
+   [SERVO_ANGLE_MIN .. SERVO_ANGLE_MAX]
+ */
 #define SERVO_PRESCALAR       1.5F
 
 /*
@@ -244,21 +245,21 @@ float sp_radius;                 //radius, for modes that need a radius. For CIR
    Absolute angle that the servo arm plane of rotation is at (degrees), from the world-X axis.
  */
 const double THETA_S_DEG[6] = {
-  -60,
-  120,
-  180,
-  0,
-  60,
-  -120
+    -60,
+    120,
+    180,
+    0,
+    60,
+    -120
 };
 
 const double THETA_S[6] = {     //Servo arm angle (radians)
-  radians(THETA_S_DEG[0]),
-  radians(THETA_S_DEG[1]),
-  radians(THETA_S_DEG[2]),
-  radians(THETA_S_DEG[3]),
-  radians(THETA_S_DEG[4]),
-  radians(THETA_S_DEG[5])
+    radians(THETA_S_DEG[0]),
+    radians(THETA_S_DEG[1]),
+    radians(THETA_S_DEG[2]),
+    radians(THETA_S_DEG[3]),
+    radians(THETA_S_DEG[4]),
+    radians(THETA_S_DEG[5])
 };
 
 /*
@@ -267,12 +268,12 @@ const double THETA_S[6] = {     //Servo arm angle (radians)
    These coordinates are in the plane of the platform itself.
  */
 const double P_COORDS[6][2] = {
-  {P_RAD * cos(AXIS1 + THETA_P), P_RAD * sin(AXIS1 + THETA_P)},
-  {P_RAD * cos(AXIS1 - THETA_P), P_RAD * sin(AXIS1 - THETA_P)},
-  {P_RAD * cos(AXIS2 + THETA_P), P_RAD * sin(AXIS2 + THETA_P)},
-  { -P_RAD * cos(AXIS2 + THETA_P), P_RAD * sin(AXIS2 + THETA_P)},
-  { -P_RAD * cos(AXIS3 - THETA_P), P_RAD * sin(AXIS3 - THETA_P)},
-  { -P_RAD * cos(AXIS3 + THETA_P), P_RAD * sin(AXIS3 + THETA_P)}
+    {P_RAD * cos(AXIS1 + THETA_P), P_RAD * sin(AXIS1 + THETA_P)},
+    {P_RAD * cos(AXIS1 - THETA_P), P_RAD * sin(AXIS1 - THETA_P)},
+    {P_RAD * cos(AXIS2 + THETA_P), P_RAD * sin(AXIS2 + THETA_P)},
+    { -P_RAD * cos(AXIS2 + THETA_P), P_RAD * sin(AXIS2 + THETA_P)},
+    { -P_RAD * cos(AXIS3 - THETA_P), P_RAD * sin(AXIS3 - THETA_P)},
+    { -P_RAD * cos(AXIS3 + THETA_P), P_RAD * sin(AXIS3 + THETA_P)}
 };
 
 /*
@@ -281,17 +282,17 @@ const double P_COORDS[6][2] = {
    These coordinates are in the plane of the base itself.
  */
 const double B_COORDS[6][2] = {
-  {B_RAD * cos(AXIS1 + THETA_B), B_RAD * sin(AXIS1 + THETA_B)},
-  {B_RAD * cos(AXIS1 - THETA_B), B_RAD * sin(AXIS1 - THETA_B)},
-  {B_RAD * cos(AXIS2 + THETA_B), B_RAD * sin(AXIS2 + THETA_B)},
-  { -B_RAD * cos(AXIS2 + THETA_B), B_RAD * sin(AXIS2 + THETA_B)},
-  { -B_RAD * cos(AXIS3 - THETA_B), B_RAD * sin(AXIS3 - THETA_B)},
-  { -B_RAD * cos(AXIS3 + THETA_B), B_RAD * sin(AXIS3 + THETA_B)}
+    {B_RAD * cos(AXIS1 + THETA_B), B_RAD * sin(AXIS1 + THETA_B)},
+    {B_RAD * cos(AXIS1 - THETA_B), B_RAD * sin(AXIS1 - THETA_B)},
+    {B_RAD * cos(AXIS2 + THETA_B), B_RAD * sin(AXIS2 + THETA_B)},
+    { -B_RAD * cos(AXIS2 + THETA_B), B_RAD * sin(AXIS2 + THETA_B)},
+    { -B_RAD * cos(AXIS3 - THETA_B), B_RAD * sin(AXIS3 - THETA_B)},
+    { -B_RAD * cos(AXIS3 + THETA_B), B_RAD * sin(AXIS3 + THETA_B)}
 };
 
 /*
-* ============ Touchscreen config ============
-*/
+ * ============ Touchscreen config ============
+ */
 #ifdef ENABLE_TOUCHSCREEN
 
 #define XP A7  // YELLOW / XRT. can be a digital pin.
@@ -318,10 +319,10 @@ const int TS_WIDTH = TS_MAX_X-TS_MIN_X;
 const int TS_HEIGHT = TS_MAX_Y-TS_MIN_Y;
 
 /*
-  Time (in millis) between the touch sensor "losing" the ball, and the platform
-  getting a signal to go to the "home" position. Until this time has passed, the
-  platform will stay in it's last position.
-*/
+   Time (in millis) between the touch sensor "losing" the ball, and the platform
+   getting a signal to go to the "home" position. Until this time has passed, the
+   platform will stay in it's last position.
+ */
 #define LOST_BALL_TIMEOUT     250
 
 double setpointX=TS_MIN_X+(TS_WIDTH/2);

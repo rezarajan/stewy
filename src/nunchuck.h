@@ -16,25 +16,26 @@
 
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 #ifdef ENABLE_NUNCHUCK
 #include <Nunchuk.h> //from https://github.com/hughpyle/machinesalem-arduino-libs/tree/master/nunchuk
 #include "config.h"
 
-typedef struct ChuckData {
-  bool buttonC;
-  bool buttonZ;
-  int joyX;
-  int joyY;
-  int accelX;
-  int accelY;
-  int accelZ;
-  float tiltX;
-  float tiltY;
-  float tiltZ;
-  long lastCButtonDown;         //to help with "double-clicking"
-  long lastZButtonDown;
+typedef struct ChuckData
+{
+    bool buttonC;
+    bool buttonZ;
+    int joyX;
+    int joyY;
+    int accelX;
+    int accelY;
+    int accelZ;
+    float tiltX;
+    float tiltY;
+    float tiltZ;
+    long lastCButtonDown;       //to help with "double-clicking"
+    long lastZButtonDown;
 } ChuckData;
 
 
@@ -42,10 +43,10 @@ Nunchuk nc;
 ChuckData chuckData;
 //calibration / trim data.
 ChuckData chuckTrim = {
-  false,    //Not used.
-  false,    //Not used.
-  1,
-  -2
+    false,     //Not used.
+    false,     //Not used.
+    1,
+    -2
 };
 
 unsigned long lastSquareShiftTime = 0L;

@@ -26,34 +26,36 @@ typedef volatile uint32_t RwReg;
   #define VOLTAGE_SETTLE 100
 #endif
 
-class TSPoint {
- public:
-  TSPoint(void);
-  TSPoint(int16_t x, int16_t y, int16_t z);
-  
-  bool operator==(TSPoint);
-  bool operator!=(TSPoint);
+class TSPoint
+{
+public:
+    TSPoint(void);
+    TSPoint(int16_t x, int16_t y, int16_t z);
 
-  int16_t x, y, z;
+    bool operator==(TSPoint);
+    bool operator!=(TSPoint);
+
+    int16_t x, y, z;
 };
 
-class TouchScreen {
- public:
-  TouchScreen(uint8_t xp, uint8_t yp, uint8_t xm, uint8_t ym, uint16_t rx);
+class TouchScreen
+{
+public:
+    TouchScreen(uint8_t xp, uint8_t yp, uint8_t xm, uint8_t ym, uint16_t rx);
 
-  bool isTouching(void);
-  uint16_t pressure(void);
-  int readTouchY();
-  int readTouchX();
-  TSPoint getPoint();
-  int16_t pressureThreshhold;
+    bool isTouching(void);
+    uint16_t pressure(void);
+    int readTouchY();
+    int readTouchX();
+    TSPoint getPoint();
+    int16_t pressureThreshhold;
 
 private:
-  uint8_t _yp, _ym, _xm, _xp;
-  uint16_t _rxplate;
+    uint8_t _yp, _ym, _xm, _xp;
+    uint16_t _rxplate;
 
-  volatile RwReg *xp_port, *yp_port, *xm_port, *ym_port;
-  RwReg xp_pin, xm_pin, yp_pin, ym_pin;
+    volatile RwReg *xp_port, *yp_port, *xm_port, *ym_port;
+    RwReg xp_pin, xm_pin, yp_pin, ym_pin;
 
 };
 

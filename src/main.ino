@@ -50,9 +50,9 @@
 #endif
 
 // this is the magic trick for printf to support float
-asm(".global _printf_float");
+asm (".global _printf_float");
 // this is the magic trick for scanf to support float
-asm(".global _scanf_float");
+asm (".global _scanf_float");
 
 //=== Actual code
 
@@ -67,42 +67,48 @@ Servo servos[6];        // servo objects.
 float sp_servo[6];      // servo setpoints in degrees, between SERVO_MIN_ANGLE and SERVO_MAX_ANGLE.
 // Logger* logger = Logger::instance();
 
-float _toUs(int value) {
-  return map(value, SERVO_MIN_ANGLE, SERVO_MAX_ANGLE, SERVO_MIN_US, SERVO_MAX_US);
+float _toUs(int value)
+{
+    return map(value, SERVO_MIN_ANGLE, SERVO_MAX_ANGLE, SERVO_MIN_US, SERVO_MAX_US);
 }
 
-float _toAngle(float value) {
-  return map(value, SERVO_MIN_US, SERVO_MAX_US, SERVO_MIN_ANGLE, SERVO_MAX_ANGLE);
+float _toAngle(float value)
+{
+    return map(value, SERVO_MIN_US, SERVO_MAX_US, SERVO_MIN_ANGLE, SERVO_MAX_ANGLE);
 }
 
 //Set servo values to the angles represented by the setpoints in sp_servo[].
 //DOES: Apply trim values.
 //DOES: Automatically reverse signal for reversed servos.
 //DOES: Write signals to the physical servos.
-void updateServos() {
-  static float sValues[6];
+void updateServos()
+{
+    static float sValues[6];
 
-  for (int i = 0; i < 6; i++) {
-    //sp_servo holds a value between SERVO_MIN_ANGLE and SERVO_MAX_ANGLE.
-    //apply reverse.
-    float val = sp_servo[i];
-    if (SERVO_REVERSE[i]) {
-      val = SERVO_MIN_ANGLE + (SERVO_MAX_ANGLE - val);
-    }
+    for (int i = 0; i < 6; i++)
+    {
+        //sp_servo holds a value between SERVO_MIN_ANGLE and SERVO_MAX_ANGLE.
+        //apply reverse.
+        float val = sp_servo[i];
+        if (SERVO_REVERSE[i])
+        {
+            val = SERVO_MIN_ANGLE + (SERVO_MAX_ANGLE - val);
+        }
 
-    //translate angle to pulse width
-    val = _toUs(val);
+        //translate angle to pulse width
+        val = _toUs(val);
 
-    if (val != sValues[i]) {
-      //don't write to the servo if you don't have to.
-      sValues[i] = val;
-      Logger::trace("SRV: s%d = %.2f + %d (value + trim)", i, val, SERVO_TRIM[i]);
+        if (val != sValues[i])
+        {
+            //don't write to the servo if you don't have to.
+            sValues[i] = val;
+            Logger::trace("SRV: s%d = %.2f + %d (value + trim)", i, val, SERVO_TRIM[i]);
 
 #ifdef ENABLE_SERVOS
-      servos[i].writeMicroseconds((int)constrain(val + SERVO_TRIM[i], SERVO_MIN_US, SERVO_MAX_US));
+            servos[i].writeMicroseconds((int)constrain(val + SERVO_TRIM[i], SERVO_MIN_US, SERVO_MAX_US));
 #endif
+        }
     }
-  }
 }
 
 // Calculates and assigns values to sp_servo.
@@ -110,159 +116,179 @@ void updateServos() {
 // DOES NOT: Apply servo trim values.
 // DOES NOT: Automatically reverse signal for reversed servos.
 // DOES NOT: digitally write a signal to any servo. Writing is done in updateServos();
-void setServo(int i, int angle) {
-  int val = angle;
-  if (val >= SERVO_MIN_ANGLE && val <= SERVO_MAX_ANGLE) {
-    sp_servo[i] = val;
-    Logger::trace("setServo %d - %.2f degrees", i, sp_servo[i]);
-  } else {
-    Logger::warn("setServo: Invalid value '%.2f' specified for servo #%d. Valid range is %d to %d degrees.", val, i, SERVO_MIN_ANGLE, SERVO_MAX_ANGLE);
-  }
+void setServo(int i, int angle)
+{
+    int val = angle;
+    if (val >= SERVO_MIN_ANGLE && val <= SERVO_MAX_ANGLE)
+    {
+        sp_servo[i] = val;
+        Logger::trace("setServo %d - %.2f degrees", i, sp_servo[i]);
+    }
+    else
+    {
+        Logger::warn("setServo: Invalid value '%.2f' specified for servo #%d. Valid range is %d to %d degrees.", val, i, SERVO_MIN_ANGLE, SERVO_MAX_ANGLE);
+    }
 }
 
-void setServoMicros(int i, int micros) {
-  int val = micros;
-  if (val >= SERVO_MIN_US && val <= SERVO_MAX_US) {
-    sp_servo[i] = _toAngle(val);
-    Logger::trace("setServoMicros %d - %.2f us", i, val);
-  } else {
-    Logger::warn("setServoMicros: Invalid value '%.2f' specified for servo #%d. Valid range is %d to %d us.", val, i, SERVO_MIN_US, SERVO_MAX_US);
-  }
+void setServoMicros(int i, int micros)
+{
+    int val = micros;
+    if (val >= SERVO_MIN_US && val <= SERVO_MAX_US)
+    {
+        sp_servo[i] = _toAngle(val);
+        Logger::trace("setServoMicros %d - %.2f us", i, val);
+    }
+    else
+    {
+        Logger::warn("setServoMicros: Invalid value '%.2f' specified for servo #%d. Valid range is %d to %d us.", val, i, SERVO_MIN_US, SERVO_MAX_US);
+    }
 }
 
-void setupTouchscreen() {
+void setupTouchscreen()
+{
   #ifdef ENABLE_TOUCHSCREEN
-  Logger::debug("Touchscreen ENABLED.");
-  rollPID.SetSampleTime(ROLL_PID_SAMPLE_TIME);
-  pitchPID.SetSampleTime(PITCH_PID_SAMPLE_TIME);
-  rollPID.SetOutputLimits(ROLL_PID_LIMIT_MIN, ROLL_PID_LIMIT_MAX);
-  pitchPID.SetOutputLimits(PITCH_PID_LIMIT_MIN, PITCH_PID_LIMIT_MAX);
-  rollPID.SetMode(AUTOMATIC);
-  pitchPID.SetMode(AUTOMATIC);
+    Logger::debug("Touchscreen ENABLED.");
+    rollPID.SetSampleTime(ROLL_PID_SAMPLE_TIME);
+    pitchPID.SetSampleTime(PITCH_PID_SAMPLE_TIME);
+    rollPID.SetOutputLimits(ROLL_PID_LIMIT_MIN, ROLL_PID_LIMIT_MAX);
+    pitchPID.SetOutputLimits(PITCH_PID_LIMIT_MIN, PITCH_PID_LIMIT_MAX);
+    rollPID.SetMode(AUTOMATIC);
+    pitchPID.SetMode(AUTOMATIC);
   #else
-  Logger::debug("Touchscreen DISABLED.");
+    Logger::debug("Touchscreen DISABLED.");
   #endif
 }
 
-void setupPlatform() {
-  stu.home(sp_servo); // set platform to "home" position (flat, centered).
-  updateServos();
-  delay(300);
+void setupPlatform()
+{
+    stu.home(sp_servo);     // set platform to "home" position (flat, centered).
+    updateServos();
+    delay(300);
 }
 
 //Initialize servo interface, sweep all six servos from MIN to MAX, to MID, to ensure they're all physically working.
-void setupServos() {
+void setupServos()
+{
 #ifdef ENABLE_SERVOS
-  int d=500;
+    int d=500;
 #else
-  int d=0;
+    int d=0;
 #endif
 
-  for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 6; i++)
+    {
 #ifdef ENABLE_SERVOS
-    servos[i].attach(SERVO_PINS[i]);
+        servos[i].attach(SERVO_PINS[i]);
 #endif
-    setServo(i, SERVO_MIN_ANGLE);
-  }
-  updateServos();
-  delay(d);
-
-  for(int pos=SERVO_MIN_ANGLE;pos<SERVO_MID_ANGLE;pos+=4){
-    for (int i = 0; i < 6; i++) {
-      setServo(i,pos);
+        setServo(i, SERVO_MIN_ANGLE);
     }
     updateServos();
-    delay(10);
-  }
+    delay(d);
 
-  // for (int i = 0; i < 6; i++) {
-  //   setServo(i, SERVO_MAX_ANGLE);
-  // }
-  // updateServos();
-  // delay(d);
-  //
-  // for (int i = 0; i < 6; i++) {
-  //   setServo(i, SERVO_MID_ANGLE);
-  // }
-  // updateServos();
-  // delay(d);
+    for (int pos=SERVO_MIN_ANGLE; pos<SERVO_MID_ANGLE; pos+=4)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            setServo(i,pos);
+        }
+        updateServos();
+        delay(10);
+    }
+
+    // for (int i = 0; i < 6; i++) {
+    //   setServo(i, SERVO_MAX_ANGLE);
+    // }
+    // updateServos();
+    // delay(d);
+    //
+    // for (int i = 0; i < 6; i++) {
+    //   setServo(i, SERVO_MID_ANGLE);
+    // }
+    // updateServos();
+    // delay(d);
 }
 
 /**
-Setup serial port and add commands.
-*/
-void setupCommandLine(int bps=9600) {
-  Serial.begin(bps);
-  delay(50);
+   Setup serial port and add commands.
+ */
+void setupCommandLine(int bps=9600)
+{
+    Serial.begin(bps);
+    delay(50);
 
-  Logger::info("Studuino, v1");
-  Logger::info("Built %s, %s",__DATE__, __TIME__);
-  Logger::info("=======================");
+    Logger::info("Studuino, v1");
+    Logger::info("Built %s, %s",__DATE__, __TIME__);
+    Logger::info("=======================");
 
   #ifdef ENABLE_SERIAL_COMMANDS
-  Logger::debug("Command-line is ENABLED.");
+    Logger::debug("Command-line is ENABLED.");
 
-  shell_init(shell_reader, shell_writer, 0);
+    shell_init(shell_reader, shell_writer, 0);
 
-  const int c1 = sizeof(commands);
-  if(c1 > 0) {
-    const int c2 = sizeof(commands[0]);
-    const int ccount = c1 / c2;
+    const int c1 = sizeof(commands);
+    if (c1 > 0)
+    {
+        const int c2 = sizeof(commands[0]);
+        const int ccount = c1 / c2;
 
-    for (int i = 0; i < ccount; i++) {
-      Logger::debug("Registering command: %s",commands[i].shell_command_string);
-      shell_register(commands[i].shell_program, commands[i].shell_command_string);
+        for (int i = 0; i < ccount; i++)
+        {
+            Logger::debug("Registering command: %s",commands[i].shell_command_string);
+            shell_register(commands[i].shell_program, commands[i].shell_command_string);
+        }
     }
-  }
   #else
 
-  Logger::debug("Command-line is DISABLED.");
+    Logger::debug("Command-line is DISABLED.");
 
   #endif
-  delay(100);
+    delay(100);
 }
 
-void setupNunchuck() {
+void setupNunchuck()
+{
   #ifdef ENABLE_NUNCHUCK
-  Logger::debug("Nunchuck support is ENABLED.");
+    Logger::debug("Nunchuck support is ENABLED.");
 
-  nc.begin();
+    nc.begin();
   #else
-  Logger::debug("Nunchuck support is DISABLED.");
+    Logger::debug("Nunchuck support is DISABLED.");
   #endif
 }
 
-void setup() {
-  Logger::level = LOG_LEVEL;    //config.h
+void setup()
+{
+    Logger::level = LOG_LEVEL;     //config.h
 
-  pinMode(LED_BUILTIN, OUTPUT); //power indicator
-  digitalWrite(LED_BUILTIN, HIGH);
+    pinMode(LED_BUILTIN, OUTPUT);     //power indicator
+    digitalWrite(LED_BUILTIN, HIGH);
 
-  setupCommandLine(115200);
+    setupCommandLine(115200);
 
-  setupNunchuck();
+    setupNunchuck();
 
-  setupPlatform();
+    setupPlatform();
 
-  setupTouchscreen();
+    setupTouchscreen();
 
-  setupServos();  //Servos come last, because this setup takes the most time...
+    setupServos();     //Servos come last, because this setup takes the most time...
 }
 
-void loop() {
+void loop()
+{
 
 #ifdef ENABLE_SERIAL_COMMANDS
-  processCommands();  //process any incoming serial commands.
+    processCommands();     //process any incoming serial commands.
 #endif
 
 #ifdef ENABLE_NUNCHUCK
-  processNunchuck();
-  blinker.loop();
+    processNunchuck();
+    blinker.loop();
 #endif
 
 #ifdef ENABLE_TOUCHSCREEN
-  processTouchscreen();
+    processTouchscreen();
 #endif
 
-  updateServos();   //Servos come last, because they take the most time.
+    updateServos();     //Servos come last, because they take the most time.
 }

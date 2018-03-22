@@ -16,15 +16,16 @@
 
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 #ifdef ENABLE_SERIAL_COMMANDS
 #include <Shell.h>  //https://github.com/geekfactory/Shell
 
-typedef struct Command {
-	shell_program_t shell_program;
-	const char * shell_command_string;
-	const char * shell_help_string;
+typedef struct Command
+{
+    shell_program_t shell_program;
+    const char * shell_command_string;
+    const char * shell_help_string;
 } Command;
 
 void processCommands();
@@ -47,24 +48,24 @@ int handlePID(int argc, char** argv);
 //===
 
 const Command commands[] = {
-  {handleHelp,    "help",     "This message."},
-  {handleDemo,    "demo",     "Do a little dance."},
-  {handleDump,    "dump",     "Display information about the system."},
-  {handleLog,     "log",      "Set the log level"},
-  {handleMoveTo,  "moveto",   "Move the platform to the specified pitch / roll (in degrees)."},
-  {handleMSet,    "mset",     "Set a specific servo to a specific angle (in microseconds)."},
-  {handleMSetAll, "msetall",  "Set all servos to a specific angle (in microseconds)."},
-  {handleHelp,    "?",        "Synonym for 'help'"},
-  {handleReset,   "reset",    "Restart the system."},
-  {handleSet,     "set",      "Set a specific servo to a specific angle (in degrees)."},
-  {handleSetAll,  "setall",   "Set all servos to a specific angle (in degrees)."}
+    {handleHelp,    "help",     "This message."},
+    {handleDemo,    "demo",     "Do a little dance."},
+    {handleDump,    "dump",     "Display information about the system."},
+    {handleLog,     "log",      "Set the log level"},
+    {handleMoveTo,  "moveto",   "Move the platform to the specified pitch / roll (in degrees)."},
+    {handleMSet,    "mset",     "Set a specific servo to a specific angle (in microseconds)."},
+    {handleMSetAll, "msetall",  "Set all servos to a specific angle (in microseconds)."},
+    {handleHelp,    "?",        "Synonym for 'help'"},
+    {handleReset,   "reset",    "Restart the system."},
+    {handleSet,     "set",      "Set a specific servo to a specific angle (in degrees)."},
+    {handleSetAll,  "setall",   "Set all servos to a specific angle (in degrees)."}
 #ifdef ENABLE_TOUCHSCREEN
-  , {handlePID,  		"px",   		"Set P value for X-axis (roll)."}
-  , {handlePID,  		"ix",   		"Set I value for X-axis (roll)."}
-  , {handlePID,  		"dx",   		"Set D value for X-axis (roll)."}
-  , {handlePID,  		"py",   		"Set P value for Y-axis (pitch)."}
-  , {handlePID,  		"iy",   		"Set I value for Y-axis (pitch)."}
-  , {handlePID,  		"dy",   		"Set D value for Y-axis (pitch)."}
+    , {handlePID,         "px",           "Set P value for X-axis (roll)."},
+    {handlePID,         "ix",           "Set I value for X-axis (roll)."},
+    {handlePID,         "dx",           "Set D value for X-axis (roll)."},
+    {handlePID,         "py",           "Set P value for Y-axis (pitch)."},
+    {handlePID,         "iy",           "Set I value for Y-axis (pitch)."},
+    {handlePID,         "dy",           "Set D value for Y-axis (pitch)."}
 #endif
 };
 
