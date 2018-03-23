@@ -51,19 +51,36 @@ void processTouchscreen()
             if (newOutX != outputX || newOutY != outputY)
             {
                 outputX = newOutX;
-                outputY=newOutY;
+                outputY = newOutY;
 
-                Logger::trace("TOUCH: %d\t%d\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f", rollPID.GetMode(), millis(), inputX, inputY, setpoint.x, setpoint.y, setpointX, setpointY, outputX, outputY);
+                // Logger::trace("TOUCH: %d\t%d\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f", rollPID.GetMode(), millis(), inputX, inputY, setpoint.x, setpoint.y, setpointX, setpointY, outputX, outputY);
 
                 float roll = map(outputX, ROLL_PID_LIMIT_MIN, ROLL_PID_LIMIT_MAX, MIN_ROLL, MAX_ROLL);
                 float pitch = map(outputY, PITCH_PID_LIMIT_MIN, PITCH_PID_LIMIT_MAX, MIN_PITCH, MAX_PITCH);
 
                 unsigned long m = millis();
+                Logger::debug("Time|InX|ErrorX|OutX:\t%d\t%.2f\t%.2f\t%.2f", m, inputX, (inputX - setpointX),outputX);
+                // Logger::debug("Time|InY|ErrorY|OutY:\t%d\t%.2f\t%.2f\t%.2f", m, inputY, (inputY - setpointY),outputY);
 
-                Logger::debug("Time/InX/InY/OutX/OutY/roll/pitch:\t%d\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f", m, inputX, inputY, outputX, outputY, roll, pitch);
-
-                stu.moveTo(sp_servo, pitch, roll);
-// stu.moveTo(sp_servo, 0, roll);  //isolate to X-axis only, while we tune pids.
+                if (ENABLE_PITCH)
+                {
+                    if (ENABLE_ROLL)
+                    {
+                        stu.moveTo(sp_servo, pitch, roll);
+                    }
+                    else
+                    {
+                        stu.moveTo(sp_servo, pitch, 0);
+                    }
+                }
+                else if (ENABLE_ROLL)
+                {
+                    stu.moveTo(sp_servo, 0, roll);
+                }
+                else
+                {
+                    //do nothing.
+                }
             }
         }
         else
