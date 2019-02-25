@@ -21,7 +21,6 @@
  */
 
 #include "Platform.h"
-#include "Logger.h"
 
 bool Platform::home(float *servoValues)
 {

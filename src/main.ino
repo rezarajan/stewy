@@ -67,7 +67,6 @@ Servo servos[6];        // servo objects.
 #endif
 
 float sp_servo[6];      // servo setpoints in degrees, between SERVO_MIN_ANGLE and SERVO_MAX_ANGLE.
-// Logger* logger = Logger::instance();
 
 float _toUs(int value)
 {
@@ -104,7 +103,7 @@ void updateServos()
         {
             //don't write to the servo if you don't have to.
             sValues[i] = val;
-            Logger::trace("SRV: s%d = %.2f + %d (value + trim)", i, val, SERVO_TRIM[i]);
+            Serial.print("SRV: s%d = %.2f + %d (value + trim)", i, val, SERVO_TRIM[i]);
 
 #ifdef ENABLE_SERVOS
             servos[i].writeMicroseconds((int)constrain(val + SERVO_TRIM[i], SERVO_MIN_US, SERVO_MAX_US));
@@ -124,11 +123,11 @@ void setServo(int i, int angle)
     if (val >= SERVO_MIN_ANGLE && val <= SERVO_MAX_ANGLE)
     {
         sp_servo[i] = val;
-        Logger::trace("setServo %d - %.2f degrees", i, sp_servo[i]);
+        Serial.print("setServo %d - %.2f degrees", i, sp_servo[i]);
     }
     else
     {
-        Logger::warn("setServo: Invalid value '%.2f' specified for servo #%d. Valid range is %d to %d degrees.", val, i, SERVO_MIN_ANGLE, SERVO_MAX_ANGLE);
+        Serial.print("setServo: Invalid value '%.2f' specified for servo #%d. Valid range is %d to %d degrees.", val, i, SERVO_MIN_ANGLE, SERVO_MAX_ANGLE);
     }
 }
 
@@ -138,11 +137,11 @@ void setServoMicros(int i, int micros)
     if (val >= SERVO_MIN_US && val <= SERVO_MAX_US)
     {
         sp_servo[i] = _toAngle(val);
-        Logger::trace("setServoMicros %d - %.2f us", i, val);
+        Serial.print("setServoMicros %d - %.2f us", i, val);
     }
     else
     {
-        Logger::warn("setServoMicros: Invalid value '%.2f' specified for servo #%d. Valid range is %d to %d us.", val, i, SERVO_MIN_US, SERVO_MAX_US);
+        Serial.print("setServoMicros: Invalid value '%.2f' specified for servo #%d. Valid range is %d to %d us.", val, i, SERVO_MIN_US, SERVO_MAX_US);
     }
 }
 

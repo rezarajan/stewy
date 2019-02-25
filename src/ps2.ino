@@ -17,7 +17,6 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "ps2.h"
-#include "Logger.h"
 
 void processPS2()
 {
@@ -62,7 +61,7 @@ void processPS2()
               double pitch = map(ps2.Analog(PSS_LX), 0, 255, MIN_PITCH, MAX_PITCH)
               double roll = map(ps2.Analog(PSS_RY), 0, 255, MIN_ROLL, MAX_ROLL)
 
-              Logger::trace("PITCH_ROLL moving to %.2f , %.2f",pitch,roll);
+              Serial.print("PITCH_ROLL moving to %.2f , %.2f",pitch,roll);
               stu.moveTo(sp_servo, pitch, roll);
 
               break;
@@ -72,7 +71,7 @@ void processPS2()
             //   double surge = map(ps2.getJoyY(), -100, 100, MIN_SURGE, MAX_SURGE);
             //   double sway = map(ps2.getJoyX(), -100, 100, MIN_SWAY, MAX_SWAY);
 
-            //   Logger::trace("SWAY_SURGE moving to %.2f , %.2f",sway,surge);
+            //   Serial.print("SWAY_SURGE moving to %.2f , %.2f",sway,surge);
             //   stu.moveTo(sp_servo, sway, surge, 0, 0, 0, 0);
 
             //   break;
@@ -81,7 +80,7 @@ void processPS2()
             //   double heave = map(ps2.getJoyY(), -100, 100, MIN_HEAVE, MAX_HEAVE);
             //   double yaw = map(ps2.getJoyX(), -100, 100, MIN_YAW, MAX_YAW);
 
-            //   Logger::trace("HEAVE_YAW moving to %.2f , %.2f",heave,yaw);
+            //   Serial.print("HEAVE_YAW moving to %.2f , %.2f",heave,yaw);
             //   stu.moveTo(sp_servo, 0, 0, heave, 0, 0, yaw);
 
             // }
@@ -89,7 +88,7 @@ void processPS2()
           }
         } else {
           //move to center if the joysticks are in the neutral position
-          // Logger::trace("Controller in deadband. (%d, %d) vs. (%d, %d)",ps2.getJoyX(), ps2.getJoyY(),deadBand.x,deadBand.y);
+          // Serial.print("Controller in deadband. (%d, %d) vs. (%d, %d)",ps2.getJoyX(), ps2.getJoyY(),deadBand.x,deadBand.y);
           stu.home(sp_servo);
         }
         break;
@@ -98,7 +97,7 @@ void processPS2()
   } else {
     mode = SETPOINT; //Controller is on the fritz / disconnected. Default back to the center setpoint.
     dir = CW;
-    Logger::trace("No PS2 Controller.");
+    Serial.print("No PS2 Controller.");
   }
 
   // Wait a short while
@@ -139,7 +138,7 @@ void setMode(Mode newMode){
 
 // TODO: include an action for resetting the platform
 // void onCButtonDblClick(){
-//   Logger::trace("CButtonDblClick");
+//   Serial.print("CButtonDblClick");
 //   setMode(DEFAULT_MODE);
 // }
 

@@ -438,49 +438,6 @@ int handleReset(int argc, char** argv)
     return SHELL_RET_SUCCESS;     //unreachable?
 }
 
-int handleLog(int argc, char** argv)
-{
-    if (argc != 2)
-    {
-        Serial.print("Usage: log [TRACE | DEBUG | INFO | WARN | ERROR | FATAL]");
-        return SHELL_RET_FAILURE;
-    }
-
-    char* token = argv[1];
-
-    if (strncmp(token, "TRACE", 5) == 0)
-    {
-        Logger::level = Logger::TRACE;
-    }
-    else if (strncmp(token, "DEBUG", 5) == 0)
-    {
-        Logger::level = Serial.print;
-    }
-    else if (strncmp(token, "INFO", 4) == 0)
-    {
-        Logger::level = Serial.print;
-    }
-    else if (strncmp(token, "WARN", 4) == 0)
-    {
-        Logger::level = Logger::WARN;
-    }
-    else if (strncmp(token, "ERROR", 5) == 0)
-    {
-        Logger::level = Serial.print;
-    }
-    else if (strncmp(token, "FATAL", 5) == 0)
-    {
-        Logger::level = Logger::FATAL;
-    }
-    else
-    {
-        Serial.print("Usage: log [TRACE | DEBUG | INFO | WARN | ERROR | FATAL]");
-        return SHELL_RET_FAILURE;
-    }
-
-    return SHELL_RET_SUCCESS;
-}
-
 int handleMoveTo(int argc, char** argv)
 {
     if (argc == 1)

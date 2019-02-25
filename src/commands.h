@@ -41,7 +41,6 @@ int handleDump(int argc, char** argv);
 int handleReset(int argc, char** argv);
 int handleDemo(int argc, char** argv);
 int handleMoveTo(int argc, char** argv);
-int handleLog(int argc, char** argv);
 #ifdef ENABLE_TOUCHSCREEN
 int handlePID(int argc, char** argv);
 #endif
@@ -51,7 +50,6 @@ const Command commands[] = {
     {handleHelp,    "help",     "This message."},
     {handleDemo,    "demo",     "Do a little dance."},
     {handleDump,    "dump",     "Display information about the system."},
-    {handleLog,     "log",      "Set the log level"},
     {handleMoveTo,  "moveto",   "Move the platform to the specified pitch / roll (in degrees)."},
     {handleMSet,    "mset",     "Set a specific servo to a specific angle (in microseconds)."},
     {handleMSetAll, "msetall",  "Set all servos to a specific angle (in microseconds)."},

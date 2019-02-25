@@ -17,7 +17,6 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "nunchuck.h"
-#include "Logger.h"
 
 void processNunchuck()
 {
@@ -79,7 +78,7 @@ void processNunchuck()
                         y=constrain(y,-1,1);
 
                         setpoint = {x,y};
-                        Logger::trace("SP: %.2f\t%.2f",setpoint.x,setpoint.y);
+                        Serial.print("SP: %.2f\t%.2f",setpoint.x,setpoint.y);
                     }
 
                     //NOTE: Actual platform behavior in this mode is handled in touch.ino
@@ -96,7 +95,7 @@ void processNunchuck()
                                     double pitch = map(nc.getJoyY(), -100, 100, MIN_PITCH, MAX_PITCH);
                                     double roll = map(nc.getJoyX(), -100, 100, MIN_ROLL, MAX_ROLL);
 
-                                    Logger::trace("PITCH_ROLL moving to %.2f , %.2f",pitch,roll);
+                                    Serial.print("PITCH_ROLL moving to %.2f , %.2f",pitch,roll);
                                     stu.moveTo(sp_servo, pitch, roll);
 
                                     break;
@@ -105,7 +104,7 @@ void processNunchuck()
                                     double surge = map(nc.getJoyY(), -100, 100, MIN_SURGE, MAX_SURGE);
                                     double sway = map(nc.getJoyX(), -100, 100, MIN_SWAY, MAX_SWAY);
 
-                                    Logger::trace("SWAY_SURGE moving to %.2f , %.2f",sway,surge);
+                                    Serial.print("SWAY_SURGE moving to %.2f , %.2f",sway,surge);
                                     stu.moveTo(sp_servo, sway, surge, 0, 0, 0, 0);
 
                                     break;
@@ -114,7 +113,7 @@ void processNunchuck()
                                     double heave = map(nc.getJoyY(), -100, 100, MIN_HEAVE, MAX_HEAVE);
                                     double yaw = map(nc.getJoyX(), -100, 100, MIN_YAW, MAX_YAW);
 
-                                    Logger::trace("HEAVE_YAW moving to %.2f , %.2f",heave,yaw);
+                                    Serial.print("HEAVE_YAW moving to %.2f , %.2f",heave,yaw);
                                     stu.moveTo(sp_servo, 0, 0, heave, 0, 0, yaw);
 
                                 }
@@ -124,7 +123,7 @@ void processNunchuck()
                     else
                     {
                         //move to center.
-                        Logger::trace("Joystick in deadband. (%d, %d) vs. (%d, %d)",nc.getJoyX(), nc.getJoyY(),deadBand.x,deadBand.y);
+                        Serial.print("Joystick in deadband. (%d, %d) vs. (%d, %d)",nc.getJoyX(), nc.getJoyY(),deadBand.x,deadBand.y);
                         stu.home(sp_servo);
                     }
                     break;
@@ -144,7 +143,7 @@ void processNunchuck()
                     float y = sin(step) * setpoint.x + cos(step) * setpoint.y;
                     setpoint = {x,y};
 
-                    Logger::trace("SP: %.2f\t%.2f",setpoint.x,setpoint.y);
+                    Serial.print("SP: %.2f\t%.2f",setpoint.x,setpoint.y);
                     break;
                 }
                 case EIGHT: {
@@ -155,7 +154,7 @@ void processNunchuck()
                     float y = scale * sin(2*t) / 2;
                     setpoint = {x,y};
 
-                    Logger::trace("SP: %.2f\t%.2f",setpoint.x,setpoint.y);
+                    Serial.print("SP: %.2f\t%.2f",setpoint.x,setpoint.y);
                     break;
                 }
                 case SQUARE:
@@ -172,7 +171,7 @@ void processNunchuck()
                         {
                             setpoint.y = -setpoint.y;
                         }
-                        Logger::trace("SP: %.2f\t%.2f",setpoint.x,setpoint.y);
+                        Serial.print("SP: %.2f\t%.2f",setpoint.x,setpoint.y);
                     }
                     break;
                 default:
@@ -190,7 +189,7 @@ void processNunchuck()
         chuckData.accelY = nc.getAccelY();
         chuckData.accelZ = nc.getAccelZ();
 
-        // Logger::trace("Buttons (C/Z): %s/%s\tJoystick (X/Y): %d/%d\tTilt (X/Y/Z): %.2f/%.2f/%.2f\tAccel (X/Y/Z): %d/%d/%d",
+        // Serial.print("Buttons (C/Z): %s/%s\tJoystick (X/Y): %d/%d\tTilt (X/Y/Z): %.2f/%.2f/%.2f\tAccel (X/Y/Z): %d/%d/%d",
         // (chuckData.buttonC ? "true" : "false"), (chuckData.buttonZ ? "true" : "false"),
         // chuckData.joyX, chuckData.joyY,
         // chuckData.tiltX, chuckData.tiltY, chuckData.tiltZ,
@@ -201,7 +200,7 @@ void processNunchuck()
     {
         mode = SETPOINT;         //Nunchuck is on the fritz / disconnected. Default back to the center setpoint.
         dir = CW;
-        Logger::trace("No nunchuck.");
+        Serial.print("No nunchuck.");
     }
 
     // Wait a short while
@@ -220,7 +219,7 @@ void onCButtonDown()
     }
     else
     {
-        Logger::trace("CButtonDown");
+        Serial.print("CButtonDown");
         chuckData.lastCButtonDown = millis();
         setMode(Mode((mode+1) % 5));
     }
@@ -262,12 +261,12 @@ void setMode(Mode newMode)
 
 void onCButtonUp()
 {
-    Logger::trace("CButtonUp");
+    Serial.print("CButtonUp");
 }
 
 void onCButtonDblClick()
 {
-    Logger::trace("CButtonDblClick");
+    Serial.print("CButtonDblClick");
     setMode(DEFAULT_MODE);
 }
 
@@ -283,7 +282,7 @@ void onZButtonDown()
     }
     else
     {
-        Logger::trace("ZButtonDown");
+        Serial.print("ZButtonDown");
         switch (mode)
         {
                 case CIRCLE:
@@ -313,11 +312,11 @@ void onZButtonDown()
 
 void onZButtonUp()
 {
-    Logger::trace("ZButtonUp");
+    Serial.print("ZButtonUp");
 }
 
 void onZButtonDblClick()
 {
-    Logger::trace("ZButtonDblClick");
+    Serial.print("ZButtonDblClick");
 }
 #endif

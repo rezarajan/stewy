@@ -53,7 +53,7 @@ void processTouchscreen()
                 outputX = newOutX;
                 outputY = newOutY;
 
-                // Logger::trace("TOUCH: %d\t%d\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f", rollPID.GetMode(), millis(), inputX, inputY, setpoint.x, setpoint.y, setpointX, setpointY, outputX, outputY);
+                // Serial.print("TOUCH: %d\t%d\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f", rollPID.GetMode(), millis(), inputX, inputY, setpoint.x, setpoint.y, setpointX, setpointY, outputX, outputY);
 
                 float roll = map(outputX, ROLL_PID_LIMIT_MIN, ROLL_PID_LIMIT_MAX, MIN_ROLL, MAX_ROLL);
                 float pitch = map(outputY, PITCH_PID_LIMIT_MIN, PITCH_PID_LIMIT_MAX, MIN_PITCH, MAX_PITCH);
