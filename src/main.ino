@@ -22,33 +22,8 @@
 #include "config.h"
 #include "Platform.h"
 
-#ifdef ENABLE_NUNCHUCK
-#include "nunchuck.h"
-#endif
-
-// #ifdef ENABLE_PS2
-// #include "ps2.h"
-// #endif
-
-#ifdef ENABLE_SERIAL_COMMANDS
-#include "commands.h"
-#endif
-
-#ifdef ENABLE_TOUCHSCREEN
-#include "touch.h"
-#endif
-
-//=== Macros
-#ifdef CORE_TEENSY
-//Software reset macros / MMap FOR TEENSY ONLY
-#define CPU_RESTART_VAL 0x5FA0004                           // write this magic number...
-#define CPU_RESTART_ADDR (uint32_t *)0xE000ED0C             // to this memory location...
-#define CPU_RESTART (*CPU_RESTART_ADDR = CPU_RESTART_VAL)   // presto!
-
-// #else
-//
-// #define CPU_RESTART asm volatile ("  jmp 0")                // close enough for arduino
-
+#ifdef ENABLE_PS2
+#include "ps2.h"
 #endif
 
 // this is the magic trick for printf to support float
@@ -145,21 +120,6 @@ void setServoMicros(int i, int micros)
     }
 }
 
-void setupTouchscreen()
-{
-  #ifdef ENABLE_TOUCHSCREEN
-    Serial.print("Touchscreen ENABLED.");
-    rollPID.SetSampleTime(ROLL_PID_SAMPLE_TIME);
-    pitchPID.SetSampleTime(PITCH_PID_SAMPLE_TIME);
-    rollPID.SetOutputLimits(ROLL_PID_LIMIT_MIN, ROLL_PID_LIMIT_MAX);
-    pitchPID.SetOutputLimits(PITCH_PID_LIMIT_MIN, PITCH_PID_LIMIT_MAX);
-    rollPID.SetMode(AUTOMATIC);
-    pitchPID.SetMode(AUTOMATIC);
-  #else
-    Serial.print("Touchscreen DISABLED.");
-  #endif
-}
-
 void setupPlatform()
 {
     stu.home(sp_servo);     // set platform to "home" position (flat, centered).
@@ -195,66 +155,6 @@ void setupServos()
         updateServos();
         delay(10);
     }
-
-    // for (int i = 0; i < 6; i++) {
-    //   setServo(i, SERVO_MAX_ANGLE);
-    // }
-    // updateServos();
-    // delay(d);
-    //
-    // for (int i = 0; i < 6; i++) {
-    //   setServo(i, SERVO_MID_ANGLE);
-    // }
-    // updateServos();
-    // delay(d);
-}
-
-/**
-   Setup serial port and add commands.
- */
-// void setupCommandLine(int bps=9600)
-// {
-//     Serial.begin(bps);
-//     delay(50);
-
-//     Serial.print("Studuino, v1");
-//     // Serial.print("Built %s, %s",__DATE__, __TIME__);
-//     Serial.print("=======================");
-
-//   #ifdef ENABLE_SERIAL_COMMANDS
-//     Serial.print("Command-line is ENABLED.");
-
-//     shell_init(shell_reader, shell_writer, 0);
-
-//     const int c1 = sizeof(commands);
-//     if (c1 > 0)
-//     {
-//         const int c2 = sizeof(commands[0]);
-//         const int ccount = c1 / c2;
-
-//         for (int i = 0; i < ccount; i++)
-//         {
-//             // Serial.print("Registering command: %s",commands[i].shell_command_string);
-//             shell_register(commands[i].shell_program, commands[i].shell_command_string);
-//         }
-//     }
-//   #else
-
-//     Serial.print("Command-line is DISABLED.");
-
-//   #endif
-//     delay(100);
-// }
-
-void setupNunchuck()
-{
-  #ifdef ENABLE_NUNCHUCK
-    Serial.print("Nunchuck support is ENABLED.");
-
-    nc.begin();
-  #else
-    Serial.print("Nunchuck support is DISABLED.");
-  #endif
 }
 
 void setupPS2()
@@ -272,15 +172,9 @@ void setup()
     pinMode(LED_BUILTIN, OUTPUT);     //power indicator
     digitalWrite(LED_BUILTIN, HIGH);
 
-    // setupCommandLine(115200);
-
-    // setupNunchuck();
-
     setupPS2();
 
     setupPlatform();
-
-    // setupTouchscreen();
 
     setupServos();     //Servos come last, because this setup takes the most time...
 }
@@ -288,21 +182,8 @@ void setup()
 void loop()
 {
 
-#ifdef ENABLE_SERIAL_COMMANDS
-    processCommands();     //process any incoming serial commands.
-#endif
-
-#ifdef ENABLE_NUNCHUCK
-    processNunchuck();
-    // blinker.loop();
-#endif
-
 #ifdef ENABLE_PS2
     processPS2();
-#endif
-
-#ifdef ENABLE_TOUCHSCREEN
-    processTouchscreen();
 #endif
 
     updateServos();     //Servos come last, because they take the most time.
