@@ -212,39 +212,39 @@ void setupServos()
 /**
    Setup serial port and add commands.
  */
-void setupCommandLine(int bps=9600)
-{
-    Serial.begin(bps);
-    delay(50);
+// void setupCommandLine(int bps=9600)
+// {
+//     Serial.begin(bps);
+//     delay(50);
 
-    Serial.print("Studuino, v1");
-    // Serial.print("Built %s, %s",__DATE__, __TIME__);
-    Serial.print("=======================");
+//     Serial.print("Studuino, v1");
+//     // Serial.print("Built %s, %s",__DATE__, __TIME__);
+//     Serial.print("=======================");
 
-  #ifdef ENABLE_SERIAL_COMMANDS
-    Serial.print("Command-line is ENABLED.");
+//   #ifdef ENABLE_SERIAL_COMMANDS
+//     Serial.print("Command-line is ENABLED.");
 
-    shell_init(shell_reader, shell_writer, 0);
+//     shell_init(shell_reader, shell_writer, 0);
 
-    const int c1 = sizeof(commands);
-    if (c1 > 0)
-    {
-        const int c2 = sizeof(commands[0]);
-        const int ccount = c1 / c2;
+//     const int c1 = sizeof(commands);
+//     if (c1 > 0)
+//     {
+//         const int c2 = sizeof(commands[0]);
+//         const int ccount = c1 / c2;
 
-        for (int i = 0; i < ccount; i++)
-        {
-            // Serial.print("Registering command: %s",commands[i].shell_command_string);
-            shell_register(commands[i].shell_program, commands[i].shell_command_string);
-        }
-    }
-  #else
+//         for (int i = 0; i < ccount; i++)
+//         {
+//             // Serial.print("Registering command: %s",commands[i].shell_command_string);
+//             shell_register(commands[i].shell_program, commands[i].shell_command_string);
+//         }
+//     }
+//   #else
 
-    Serial.print("Command-line is DISABLED.");
+//     Serial.print("Command-line is DISABLED.");
 
-  #endif
-    delay(100);
-}
+//   #endif
+//     delay(100);
+// }
 
 void setupNunchuck()
 {
@@ -272,7 +272,7 @@ void setup()
     pinMode(LED_BUILTIN, OUTPUT);     //power indicator
     digitalWrite(LED_BUILTIN, HIGH);
 
-    setupCommandLine(115200);
+    // setupCommandLine(115200);
 
     // setupNunchuck();
 
@@ -298,7 +298,7 @@ void loop()
 #endif
 
 #ifdef ENABLE_PS2
-    // processPS2();
+    processPS2();
 #endif
 
 #ifdef ENABLE_TOUCHSCREEN
