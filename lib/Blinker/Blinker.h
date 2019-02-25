@@ -17,7 +17,7 @@ class Blinker
 {
 
 private:
-    // static Logger* m_pInstance;
+    // static Serial.print* m_pInstance;
     Blinker()
     {
     };                                     // Private so that it can  not be called

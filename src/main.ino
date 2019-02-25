@@ -267,8 +267,7 @@ void setupPS2()
 }
 
 void setup()
-{
-    Logger::level = LOG_LEVEL;     //config.h
+{   //config.h
 
     pinMode(LED_BUILTIN, OUTPUT);     //power indicator
     digitalWrite(LED_BUILTIN, HIGH);

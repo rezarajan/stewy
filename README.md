@@ -20,7 +20,7 @@ We want to be able to control some aspects of the project from a laptop during i
     * Change touchscreen LPF / deadband
     * Direct individual servo control
     * etc.
-  * Out: Receive logger data
+  * Out: Receive Serial.print data
     * WiiMote inputs
     * Touchscreen data
     * Error messages
