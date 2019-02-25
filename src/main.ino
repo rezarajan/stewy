@@ -26,9 +26,9 @@
 #include "nunchuck.h"
 #endif
 
-#ifdef ENABLE_PS2
-#include "ps2.h"
-#endif
+// #ifdef ENABLE_PS2
+// #include "ps2.h"
+// #endif
 
 #ifdef ENABLE_SERIAL_COMMANDS
 #include "commands.h"
@@ -103,7 +103,7 @@ void updateServos()
         {
             //don't write to the servo if you don't have to.
             sValues[i] = val;
-            Serial.print("SRV: s%d = %.2f + %d (value + trim)", i, val, SERVO_TRIM[i]);
+            // Serial.print("SRV: s%d = %.2f + %d (value + trim)", i, val, SERVO_TRIM[i]);
 
 #ifdef ENABLE_SERVOS
             servos[i].writeMicroseconds((int)constrain(val + SERVO_TRIM[i], SERVO_MIN_US, SERVO_MAX_US));
@@ -123,11 +123,11 @@ void setServo(int i, int angle)
     if (val >= SERVO_MIN_ANGLE && val <= SERVO_MAX_ANGLE)
     {
         sp_servo[i] = val;
-        Serial.print("setServo %d - %.2f degrees", i, sp_servo[i]);
+        // Serial.print("setServo %d - %.2f degrees", i, sp_servo[i]);
     }
     else
     {
-        Serial.print("setServo: Invalid value '%.2f' specified for servo #%d. Valid range is %d to %d degrees.", val, i, SERVO_MIN_ANGLE, SERVO_MAX_ANGLE);
+        // Serial.print("setServo: Invalid value '%.2f' specified for servo #%d. Valid range is %d to %d degrees.", val, i, SERVO_MIN_ANGLE, SERVO_MAX_ANGLE);
     }
 }
 
@@ -137,11 +137,11 @@ void setServoMicros(int i, int micros)
     if (val >= SERVO_MIN_US && val <= SERVO_MAX_US)
     {
         sp_servo[i] = _toAngle(val);
-        Serial.print("setServoMicros %d - %.2f us", i, val);
+        // Serial.print("setServoMicros %d - %.2f us", i, val);
     }
     else
     {
-        Serial.print("setServoMicros: Invalid value '%.2f' specified for servo #%d. Valid range is %d to %d us.", val, i, SERVO_MIN_US, SERVO_MAX_US);
+        // Serial.print("setServoMicros: Invalid value '%.2f' specified for servo #%d. Valid range is %d to %d us.", val, i, SERVO_MIN_US, SERVO_MAX_US);
     }
 }
 
@@ -218,7 +218,7 @@ void setupCommandLine(int bps=9600)
     delay(50);
 
     Serial.print("Studuino, v1");
-    Serial.print("Built %s, %s",__DATE__, __TIME__);
+    // Serial.print("Built %s, %s",__DATE__, __TIME__);
     Serial.print("=======================");
 
   #ifdef ENABLE_SERIAL_COMMANDS
@@ -234,7 +234,7 @@ void setupCommandLine(int bps=9600)
 
         for (int i = 0; i < ccount; i++)
         {
-            Serial.print("Registering command: %s",commands[i].shell_command_string);
+            // Serial.print("Registering command: %s",commands[i].shell_command_string);
             shell_register(commands[i].shell_program, commands[i].shell_command_string);
         }
     }
@@ -274,13 +274,13 @@ void setup()
 
     setupCommandLine(115200);
 
-    setupNunchuck();
+    // setupNunchuck();
 
     setupPS2();
 
     setupPlatform();
 
-    setupTouchscreen();
+    // setupTouchscreen();
 
     setupServos();     //Servos come last, because this setup takes the most time...
 }
@@ -298,7 +298,7 @@ void loop()
 #endif
 
 #ifdef ENABLE_PS2
-    processPS2();
+    // processPS2();
 #endif
 
 #ifdef ENABLE_TOUCHSCREEN

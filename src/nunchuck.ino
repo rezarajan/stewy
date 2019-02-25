@@ -78,7 +78,7 @@ void processNunchuck()
                         y=constrain(y,-1,1);
 
                         setpoint = {x,y};
-                        Serial.print("SP: %.2f\t%.2f",setpoint.x,setpoint.y);
+                        // Serial.print("SP: %.2f\t%.2f",setpoint.x,setpoint.y);
                     }
 
                     //NOTE: Actual platform behavior in this mode is handled in touch.ino
@@ -95,7 +95,7 @@ void processNunchuck()
                                     double pitch = map(nc.getJoyY(), -100, 100, MIN_PITCH, MAX_PITCH);
                                     double roll = map(nc.getJoyX(), -100, 100, MIN_ROLL, MAX_ROLL);
 
-                                    Serial.print("PITCH_ROLL moving to %.2f , %.2f",pitch,roll);
+                                    // Serial.print("PITCH_ROLL moving to %.2f , %.2f",pitch,roll);
                                     stu.moveTo(sp_servo, pitch, roll);
 
                                     break;
@@ -104,7 +104,7 @@ void processNunchuck()
                                     double surge = map(nc.getJoyY(), -100, 100, MIN_SURGE, MAX_SURGE);
                                     double sway = map(nc.getJoyX(), -100, 100, MIN_SWAY, MAX_SWAY);
 
-                                    Serial.print("SWAY_SURGE moving to %.2f , %.2f",sway,surge);
+                                    // Serial.print("SWAY_SURGE moving to %.2f , %.2f",sway,surge);
                                     stu.moveTo(sp_servo, sway, surge, 0, 0, 0, 0);
 
                                     break;
@@ -113,7 +113,7 @@ void processNunchuck()
                                     double heave = map(nc.getJoyY(), -100, 100, MIN_HEAVE, MAX_HEAVE);
                                     double yaw = map(nc.getJoyX(), -100, 100, MIN_YAW, MAX_YAW);
 
-                                    Serial.print("HEAVE_YAW moving to %.2f , %.2f",heave,yaw);
+                                    // Serial.print("HEAVE_YAW moving to %.2f , %.2f",heave,yaw);
                                     stu.moveTo(sp_servo, 0, 0, heave, 0, 0, yaw);
 
                                 }
@@ -123,7 +123,7 @@ void processNunchuck()
                     else
                     {
                         //move to center.
-                        Serial.print("Joystick in deadband. (%d, %d) vs. (%d, %d)",nc.getJoyX(), nc.getJoyY(),deadBand.x,deadBand.y);
+                        // Serial.print("Joystick in deadband. (%d, %d) vs. (%d, %d)",nc.getJoyX(), nc.getJoyY(),deadBand.x,deadBand.y);
                         stu.home(sp_servo);
                     }
                     break;
@@ -143,7 +143,7 @@ void processNunchuck()
                     float y = sin(step) * setpoint.x + cos(step) * setpoint.y;
                     setpoint = {x,y};
 
-                    Serial.print("SP: %.2f\t%.2f",setpoint.x,setpoint.y);
+                    // Serial.print("SP: %.2f\t%.2f",setpoint.x,setpoint.y);
                     break;
                 }
                 case EIGHT: {
@@ -154,7 +154,7 @@ void processNunchuck()
                     float y = scale * sin(2*t) / 2;
                     setpoint = {x,y};
 
-                    Serial.print("SP: %.2f\t%.2f",setpoint.x,setpoint.y);
+                    // Serial.print("SP: %.2f\t%.2f",setpoint.x,setpoint.y);
                     break;
                 }
                 case SQUARE:
@@ -171,7 +171,7 @@ void processNunchuck()
                         {
                             setpoint.y = -setpoint.y;
                         }
-                        Serial.print("SP: %.2f\t%.2f",setpoint.x,setpoint.y);
+                        // Serial.print("SP: %.2f\t%.2f",setpoint.x,setpoint.y);
                     }
                     break;
                 default:
@@ -200,7 +200,7 @@ void processNunchuck()
     {
         mode = SETPOINT;         //Nunchuck is on the fritz / disconnected. Default back to the center setpoint.
         dir = CW;
-        Serial.print("No nunchuck.");
+        // Serial.print("No nunchuck.");
     }
 
     // Wait a short while
@@ -219,7 +219,7 @@ void onCButtonDown()
     }
     else
     {
-        Serial.print("CButtonDown");
+        // Serial.print("CButtonDown");
         chuckData.lastCButtonDown = millis();
         setMode(Mode((mode+1) % 5));
     }
@@ -238,7 +238,7 @@ void setMode(Mode newMode)
             // Turn off the PIDs if we're moving to CONTROL mode.
             // Turn them on if we're moving out of CONTROL mode.
             int onOff = newMode == CONTROL ? MANUAL : AUTOMATIC;
-            Serial.print("setting PID mode to %s",onOff ? "AUTOMATIC" : "MANUAL");
+            // Serial.print("setting PID mode to %s",onOff ? "AUTOMATIC" : "MANUAL");
             rollPID.SetMode(onOff);
             pitchPID.SetMode(onOff);
         }
@@ -246,7 +246,7 @@ void setMode(Mode newMode)
 
         mode = newMode;
 
-        Serial.print("Mode = %s",modeStrings[mode]);
+        // Serial.print("Mode = %s",modeStrings[mode]);
         // blinker.blink(int(mode)+1);
 
         //initialize the mode
@@ -261,12 +261,12 @@ void setMode(Mode newMode)
 
 void onCButtonUp()
 {
-    Serial.print("CButtonUp");
+    // Serial.print("CButtonUp");
 }
 
 void onCButtonDblClick()
 {
-    Serial.print("CButtonDblClick");
+    // Serial.print("CButtonDblClick");
     setMode(DEFAULT_MODE);
 }
 
@@ -282,7 +282,7 @@ void onZButtonDown()
     }
     else
     {
-        Serial.print("ZButtonDown");
+        // Serial.print("ZButtonDown");
         switch (mode)
         {
                 case CIRCLE:
@@ -293,17 +293,17 @@ void onZButtonDown()
                     chuckData.lastZButtonDown = millis();
                     dir = Direction((dir+1) % 2);
 
-                    Serial.print("Direction = %s",directionStrings[dir]);
+                    // Serial.print("Direction = %s",directionStrings[dir]);
                     break;
                 case CONTROL:
                     //change subMode.
                     controlSubMode = ControlSubMode((controlSubMode+1) % 3);
 
-                    Serial.print("ControlSubMode = %s",subModeStrings[controlSubMode]);
+                    // Serial.print("ControlSubMode = %s",subModeStrings[controlSubMode]);
                 case SETPOINT:
                     //reset the setpoint to the default.
                     setpoint = DEFAULT_SETPOINT;
-                    Serial.print("%.3f\t%.3f",setpoint.x,setpoint.y);
+                    // Serial.print("%.3f\t%.3f",setpoint.x,setpoint.y);
                 default:
                     break;
         }
@@ -312,11 +312,11 @@ void onZButtonDown()
 
 void onZButtonUp()
 {
-    Serial.print("ZButtonUp");
+    // Serial.print("ZButtonUp");
 }
 
 void onZButtonDblClick()
 {
-    Serial.print("ZButtonDblClick");
+    // Serial.print("ZButtonDblClick");
 }
 #endif

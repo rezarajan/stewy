@@ -59,7 +59,7 @@ void processTouchscreen()
                 float pitch = map(outputY, PITCH_PID_LIMIT_MIN, PITCH_PID_LIMIT_MAX, MIN_PITCH, MAX_PITCH);
 
                 unsigned long m = millis();
-                Serial.print("Time|InX|ErrorX|OutX:\t%d\t%.2f\t%.2f\t%.2f", m, inputX, (inputX - setpointX),outputX);
+                // Serial.print("Time|InX|ErrorX|OutX:\t%d\t%.2f\t%.2f\t%.2f", m, inputX, (inputX - setpointX),outputX);
                 // Serial.print("Time|InY|ErrorY|OutY:\t%d\t%.2f\t%.2f\t%.2f", m, inputY, (inputY - setpointY),outputY);
 
                 if (ENABLE_PITCH)

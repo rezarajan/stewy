@@ -123,7 +123,7 @@ void setMode(Mode newMode){
 
     mode = newMode;
 
-    Serial.print("Mode = %s",modeStrings[mode]);
+    // Serial.print("Mode = %s",modeStrings[mode]);
     // blinker.blink(int(mode)+1);
 
     //initialize the mode

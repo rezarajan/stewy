@@ -22,10 +22,10 @@
 #ifndef __STU_CONFIG_H__
 #define __STU_CONFIG_H__
 
-#define ENABLE_SERIAL_COMMANDS    //Comment out, to omit Command shell code.
-#define ENABLE_NUNCHUCK           //Comment out, to omit Nunchuck code.
+// #define ENABLE_SERIAL_COMMANDS    //Comment out, to omit Command shell code.
+// #define ENABLE_NUNCHUCK           //Comment out, to omit Nunchuck code.
 #define ENABLE_PS2           //Comment out, to omit Nunchuck code.
-#define ENABLE_TOUCHSCREEN        //Comment out, to omit Touchscreen code.
+// #define ENABLE_TOUCHSCREEN        //Comment out, to omit Touchscreen code.
 
 /*
    Comment out, to disable Servos. Servos can get hot if you don't set
@@ -34,8 +34,6 @@
    or overheating the servos.
  */
 #define ENABLE_SERVOS
-
-#define LOG_LEVEL       Serial.print
 
 //Which servos are reversed. 1 = reversed, 0 = normal.
 const int SERVO_REVERSE[6] = {0, 1, 0, 1, 0, 1};
@@ -294,58 +292,58 @@ const double B_COORDS[6][2] = {
 /*
  * ============ Touchscreen config ============
  */
-#ifdef ENABLE_TOUCHSCREEN
+// #ifdef ENABLE_TOUCHSCREEN
 
-#define XP A7  // YELLOW / XRT. can be a digital pin.
-#define XM A6  // WHITE / XLE. must be an analog pin, use "An" notation!
+// #define XP A7  // YELLOW / XRT. can be a digital pin.
+// #define XM A6  // WHITE / XLE. must be an analog pin, use "An" notation!
 
-#define YP A8  // RED / YLO. must be an analog pin, use "An" notation!
-#define YM A9  // BLACK / YUP. can be a digital pin.
+// #define YP A8  // RED / YLO. must be an analog pin, use "An" notation!
+// #define YM A9  // BLACK / YUP. can be a digital pin.
 
-// For better pressure precision, we need to know the resistance
-// between X+ and X- Use any multimeter to read it
-// For the one we're using, its 711 ohms across the X plate
-#define TS_OHMS 711 //resistance between X+ and X-
+// // For better pressure precision, we need to know the resistance
+// // between X+ and X- Use any multimeter to read it
+// // For the one we're using, its 711 ohms across the X plate
+// #define TS_OHMS 711 //resistance between X+ and X-
 
-//The Adafruit touchscreen library returns raw values from the ADC (between 0-1024).
-//Here, we adjust for our specific touchscreen part. (In this case, https://www.digikey.com/product-detail/en/nkk-switches/FTAS00-12.1AN-4/360-3520-ND/6823699)
+// //The Adafruit touchscreen library returns raw values from the ADC (between 0-1024).
+// //Here, we adjust for our specific touchscreen part. (In this case, https://www.digikey.com/product-detail/en/nkk-switches/FTAS00-12.1AN-4/360-3520-ND/6823699)
 
-//Min / max values of X and Y.
-#define TS_MIN_X              1
-#define TS_MAX_X              950       //1023
-const int TS_WIDTH = TS_MAX_X-TS_MIN_X;
+// //Min / max values of X and Y.
+// #define TS_MIN_X              1
+// #define TS_MAX_X              950       //1023
+// const int TS_WIDTH = TS_MAX_X-TS_MIN_X;
 
-#define TS_MIN_Y              100
-#define TS_MAX_Y              930       //1023
-const int TS_HEIGHT = TS_MAX_Y-TS_MIN_Y;
+// #define TS_MIN_Y              100
+// #define TS_MAX_Y              930       //1023
+// const int TS_HEIGHT = TS_MAX_Y-TS_MIN_Y;
 
-/*
-   Time (in millis) between the touch sensor "losing" the ball, and the platform
-   getting a signal to go to the "home" position. Until this time has passed, the
-   platform will stay in it's last position.
- */
-#define LOST_BALL_TIMEOUT     250
+// /*
+//    Time (in millis) between the touch sensor "losing" the ball, and the platform
+//    getting a signal to go to the "home" position. Until this time has passed, the
+//    platform will stay in it's last position.
+//  */
+// #define LOST_BALL_TIMEOUT     250
 
-double setpointX=TS_MIN_X+(TS_WIDTH/2);
-double inputX;
-double outputX;
+// double setpointX=TS_MIN_X+(TS_WIDTH/2);
+// double inputX;
+// double outputX;
 
-double setpointY=TS_MIN_Y+(TS_HEIGHT/2);
-double inputY;
-double outputY;
+// double setpointY=TS_MIN_Y+(TS_HEIGHT/2);
+// double inputY;
+// double outputY;
 
-//Specify the links and initial tuning parameters
-double PX=3, IX=0, DX=0;
-double PY=1, IY=0, DY=0;
+// //Specify the links and initial tuning parameters
+// double PX=3, IX=0, DX=0;
+// double PY=1, IY=0, DY=0;
 
-#define ROLL_PID_SAMPLE_TIME 10
-#define ROLL_PID_LIMIT_MIN 0
-#define ROLL_PID_LIMIT_MAX 2048
+// #define ROLL_PID_SAMPLE_TIME 10
+// #define ROLL_PID_LIMIT_MIN 0
+// #define ROLL_PID_LIMIT_MAX 2048
 
-#define PITCH_PID_SAMPLE_TIME 10
-#define PITCH_PID_LIMIT_MIN 0
-#define PITCH_PID_LIMIT_MAX 2048
+// #define PITCH_PID_SAMPLE_TIME 10
+// #define PITCH_PID_LIMIT_MIN 0
+// #define PITCH_PID_LIMIT_MAX 2048
 
-#endif    //ENABLE_TOUCHSCREEN
+// #endif    //ENABLE_TOUCHSCREEN
 
 #endif    //__STU_CONFIG_H__
