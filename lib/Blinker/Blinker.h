@@ -1,6 +1,6 @@
 /*
- Toy library, for asynchronously blinking an (e.g.) LED. More generally, toggle between HIGH / LOW on some specific cycle.
-*/
+   Toy library, for asynchronously blinking an (e.g.) LED. More generally, toggle between HIGH / LOW on some specific cycle.
+ */
 
 #ifndef BLINKER_H
 #define BLINKER_H
@@ -9,15 +9,18 @@
 
 const int DEFAULT_BLINK_INTERVAL_MILLIS=200;
 enum BlinkStatus {
-  OFF,
-  BLINKING
+    OFF,
+    BLINKING
 };
 
-class Blinker {
+class Blinker
+{
 
-  private:
-    // static Logger* m_pInstance;
-    Blinker(){};                           // Private so that it can  not be called
+private:
+    // static Serial.print* m_pInstance;
+    Blinker()
+    {
+    };                                     // Private so that it can  not be called
 
     bool _state = false;
     int _pin;
@@ -28,42 +31,42 @@ class Blinker {
     int _onTime, _offTime;   //how long should the LED be on / off (in millis)?
     bool _invert;            //normally, the LED is off, and driven HIGH on blink. setting this to true inverts the signal, so that the LED is normally on, then driven LOW on blink.
 
-  public:
+public:
     /*
-    Return an instance of Blinker, attached to a digital IO pin. This sets the
-    pinMode to OUTPUT, and initializes the pin to LOW.
-    */
+       Return an instance of Blinker, attached to a digital IO pin. This sets the
+       pinMode to OUTPUT, and initializes the pin to LOW.
+     */
     static Blinker attach(int pin, bool invert, int onTime, int offtime);
 
     /*
-    Start blinking.
-    */
+       Start blinking.
+     */
 
     void blink(int times);
 
     /*
-     Called in every iteration of the main loop.
-    */
+       Called in every iteration of the main loop.
+     */
     void loop();
 
     /*
-      Detach the Blinker from the output pin. subsequent calls to blink() or loop() will have no effect.
-    */
+       Detach the Blinker from the output pin. subsequent calls to blink() or loop() will have no effect.
+     */
     void detach();
 
     /*
-      Get the current pinValue (HIGH or LOW). This is pulled directly from pin value registers in hardware.
-    */
+       Get the current pinValue (HIGH or LOW). This is pulled directly from pin value registers in hardware.
+     */
     bool getLedState();
 
     /*
-      Is the blinker currently processing a series of blinks (regardless of the actual state of the LED / output pin).
-    */
+       Is the blinker currently processing a series of blinks (regardless of the actual state of the LED / output pin).
+     */
     BlinkStatus getStatus();
 
     /*
-      Is the blinker "inverted"? (Normally OFF instead of ON?)
-    */
+       Is the blinker "inverted"? (Normally OFF instead of ON?)
+     */
     bool isInverted();
 };
 

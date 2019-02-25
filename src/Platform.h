@@ -1,7 +1,7 @@
 #ifndef __STU_PLATFORM_H__
 #define __STU_PLATFORM_H__
 /*
-   6dof-stewduino
+   stewy
    Copyright (C) 2018  Philippe Desrosiers
 
    This program is free software: you can redistribute it and/or modify
@@ -26,30 +26,31 @@
 
 //==============================================================================
 
-class Platform {
+class Platform
+{
 
 private:
 
 //Setpoints (internal state)
-int _sp_sway = 0,           //sway (x) in mm
-    _sp_surge = 0,          //surge (y) in mm
-    _sp_heave = 0;          //heave (z) in mm
+    int _sp_sway = 0,           //sway (x) in mm
+        _sp_surge = 0,          //surge (y) in mm
+        _sp_heave = 0;          //heave (z) in mm
 
-float _sp_pitch = 0,        //pitch (x) in radians
-      _sp_roll = 0,         //roll (y) in radians
-      _sp_yaw = 0;          //yaw (z) in radians
+    float _sp_pitch = 0,        //pitch (x) in radians
+          _sp_roll = 0,         //roll (y) in radians
+          _sp_yaw = 0;          //yaw (z) in radians
 
 public:
-bool home(float *servoValues);
-bool moveTo(float *servoValues, int sway, int surge, int heave, float pitch, float roll, float yaw);
-bool moveTo(float *servoValues, float pitch, float roll);
+    bool home(float *servoValues);
+    bool moveTo(float *servoValues, int sway, int surge, int heave, float pitch, float roll, float yaw);
+    bool moveTo(float *servoValues, float pitch, float roll);
 
-int getSway();
-int getSurge();
-int getHeave();
+    int getSway();
+    int getSurge();
+    int getHeave();
 
-float getPitch();
-float getRoll();
-float getYaw();
+    float getPitch();
+    float getRoll();
+    float getYaw();
 };
 #endif    //__STU_PLATFORM_H__
