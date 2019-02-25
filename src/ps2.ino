@@ -55,8 +55,8 @@ void processPS2()
     switch (mode) {
 
       case CONTROL:
-        if(abs(ps2.getJoyX()) > deadBand.x ||
-           abs(ps2.getJoyY()) > deadBand.y) {
+        if(int(ps2.Analog(PSS_LX)) >= 126 || int(ps2.Analog(PSS_LX)) <= 128 &&
+           int(ps2.Analog(PSS_RY)) >= 126 || int(ps2.Analog(PSS_RY)) <= 128) {
           switch (controlSubMode) {
             case PITCH_ROLL: {
               double pitch = map(ps2.Analog(PSS_LX), 0, 255, MIN_PITCH, MAX_PITCH)
@@ -88,7 +88,7 @@ void processPS2()
             // break;
           }
         } else {
-          //move to center.
+          //move to center if the joysticks are in the neutral position
           // Logger::trace("Controller in deadband. (%d, %d) vs. (%d, %d)",ps2.getJoyX(), ps2.getJoyY(),deadBand.x,deadBand.y);
           stu.home(sp_servo);
         }
