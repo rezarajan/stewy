@@ -1,6 +1,14 @@
 # stewy
 Arduino project for a 6DOF, PID-controlled Stewart platform, running on Arduino. Inspired by https://www.youtube.com/watch?v=j4OmVLc_oDw .
 
+
+## Instructions
+Copy all files in lib to the Arduino library folder:<br /> 
+**Windows:**'C:\Users\{user name}\Documents\Arduino\libraries' <br />
+**Mac/Linux:** '{Arduino IDE path}\hardware\libraries" 
+<br /> *or* <br />
+{Arduino IDE path}\libraries" 
+
 ## Goal
 Teach myself embedded development, using something a little more unique / less trivial than a typical “Blinky” app. This project will incorporate:
   * Bi-directional Serial I/O (Command shell)
