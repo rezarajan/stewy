@@ -7,7 +7,7 @@
 
 int error = 0;
 int type = 0;
-// sp_servo is defined in main.ino and passed here // float sp_servo[6]
+// sp_servo is defined in src.ino and passed here // float sp_servo[6]
 
 void processPS2()
 {
