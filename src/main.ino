@@ -25,7 +25,10 @@
 
 #ifdef ENABLE_NUNCHUCK
 #include "nunchuck.h"
+#endif
 
+#ifdef ENABLE_PS2
+#include "ps2.h"
 #endif
 
 #ifdef ENABLE_SERIAL_COMMANDS
@@ -256,6 +259,15 @@ void setupNunchuck()
   #endif
 }
 
+void setupPS2()
+{
+  #ifdef ENABLE_PS2
+    Logger::debug("PS2 support is ENABLED.");
+  #else
+    Logger::debug("PS2 support is DISABLED.");
+  #endif
+}
+
 void setup()
 {
     Logger::level = LOG_LEVEL;     //config.h
@@ -266,6 +278,8 @@ void setup()
     setupCommandLine(115200);
 
     setupNunchuck();
+
+    setupPS2();
 
     setupPlatform();
 
@@ -284,6 +298,10 @@ void loop()
 #ifdef ENABLE_NUNCHUCK
     processNunchuck();
     blinker.loop();
+#endif
+
+#ifdef ENABLE_PS2
+    processPS2();
 #endif
 
 #ifdef ENABLE_TOUCHSCREEN

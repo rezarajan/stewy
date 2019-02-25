@@ -24,6 +24,7 @@
 
 #define ENABLE_SERIAL_COMMANDS    //Comment out, to omit Command shell code.
 #define ENABLE_NUNCHUCK           //Comment out, to omit Nunchuck code.
+#define ENABLE_PS2           //Comment out, to omit Nunchuck code.
 #define ENABLE_TOUCHSCREEN        //Comment out, to omit Touchscreen code.
 
 /*
