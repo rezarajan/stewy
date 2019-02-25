@@ -239,7 +239,7 @@ void setMode(Mode newMode)
             // Turn off the PIDs if we're moving to CONTROL mode.
             // Turn them on if we're moving out of CONTROL mode.
             int onOff = newMode == CONTROL ? MANUAL : AUTOMATIC;
-            Logger::debug("setting PID mode to %s",onOff ? "AUTOMATIC" : "MANUAL");
+            Serial.print("setting PID mode to %s",onOff ? "AUTOMATIC" : "MANUAL");
             rollPID.SetMode(onOff);
             pitchPID.SetMode(onOff);
         }
@@ -247,7 +247,7 @@ void setMode(Mode newMode)
 
         mode = newMode;
 
-        Logger::debug("Mode = %s",modeStrings[mode]);
+        Serial.print("Mode = %s",modeStrings[mode]);
         // blinker.blink(int(mode)+1);
 
         //initialize the mode
@@ -294,17 +294,17 @@ void onZButtonDown()
                     chuckData.lastZButtonDown = millis();
                     dir = Direction((dir+1) % 2);
 
-                    Logger::debug("Direction = %s",directionStrings[dir]);
+                    Serial.print("Direction = %s",directionStrings[dir]);
                     break;
                 case CONTROL:
                     //change subMode.
                     controlSubMode = ControlSubMode((controlSubMode+1) % 3);
 
-                    Logger::debug("ControlSubMode = %s",subModeStrings[controlSubMode]);
+                    Serial.print("ControlSubMode = %s",subModeStrings[controlSubMode]);
                 case SETPOINT:
                     //reset the setpoint to the default.
                     setpoint = DEFAULT_SETPOINT;
-                    Logger::debug("%.3f\t%.3f",setpoint.x,setpoint.y);
+                    Serial.print("%.3f\t%.3f",setpoint.x,setpoint.y);
                 default:
                     break;
         }

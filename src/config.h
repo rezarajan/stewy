@@ -35,7 +35,7 @@
  */
 #define ENABLE_SERVOS
 
-#define LOG_LEVEL       Logger::DEBUG
+#define LOG_LEVEL       Serial.print
 
 //Which servos are reversed. 1 = reversed, 0 = normal.
 const int SERVO_REVERSE[6] = {0, 1, 0, 1, 0, 1};

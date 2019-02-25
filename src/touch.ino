@@ -44,7 +44,7 @@ void processTouchscreen()
             setpointX = map(setpoint.x, -1.0, 1.0, TS_MIN_X, TS_MAX_X);
             setpointY = map(setpoint.y, -1.0, 1.0, TS_MIN_Y, TS_MAX_Y);
 
-// Logger::debug("setpointY=%f",setpointY);
+// Serial.print("setpointY=%f",setpointY);
             double newOutX = rollPID.Compute(inputX, setpointX);
             double newOutY = pitchPID.Compute(inputY, setpointY);
 
@@ -59,8 +59,8 @@ void processTouchscreen()
                 float pitch = map(outputY, PITCH_PID_LIMIT_MIN, PITCH_PID_LIMIT_MAX, MIN_PITCH, MAX_PITCH);
 
                 unsigned long m = millis();
-                Logger::debug("Time|InX|ErrorX|OutX:\t%d\t%.2f\t%.2f\t%.2f", m, inputX, (inputX - setpointX),outputX);
-                // Logger::debug("Time|InY|ErrorY|OutY:\t%d\t%.2f\t%.2f\t%.2f", m, inputY, (inputY - setpointY),outputY);
+                Serial.print("Time|InX|ErrorX|OutX:\t%d\t%.2f\t%.2f\t%.2f", m, inputX, (inputX - setpointX),outputX);
+                // Serial.print("Time|InY|ErrorY|OutY:\t%d\t%.2f\t%.2f\t%.2f", m, inputY, (inputY - setpointY),outputY);
 
                 if (ENABLE_PITCH)
                 {

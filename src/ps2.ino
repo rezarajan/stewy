@@ -28,29 +28,29 @@ void processPS2()
   type = ps2.readType();
   switch(type) {
     case 0:
-      Logger::info("Unknown Controller type found");
+      Serial.print("Unknown Controller type found");
       break;
     case 1:
-      Logger::info("DualShock Controller found");
+      Serial.print("DualShock Controller found");
       break;
     case 2:
-      Logger::info("GuitarHero Controller found");
+      Serial.print("GuitarHero Controller found");
       break;
   case 3:
-      Logger::info("Wireless Sony DualShock Controller found");
+      Serial.print("Wireless Sony DualShock Controller found");
       break;
   }
 
   if (!error) {
 
   if(!error)
-    Logger::debug("Found Controller, configuration successful");
+    Serial.print("Found Controller, configuration successful");
   else if(error == 1)
-    Logger::debug("No controller found, check wiring");
+    Serial.print("No controller found, check wiring");
   else if(error == 2)
-    Logger::debug("Controller found but not accepting commands.");
+    Serial.print("Controller found but not accepting commands.");
   else if(error == 3)
-    Logger::debug("Controller refusing to enter Pressures mode, may not support it.");
+    Serial.print("Controller refusing to enter Pressures mode, may not support it.");
 
     switch (mode) {
 
@@ -116,7 +116,7 @@ void setMode(Mode newMode){
       // Turn off the PIDs if we're moving to CONTROL mode.
       // Turn them on if we're moving out of CONTROL mode.
       int onOff = newMode == CONTROL ? MANUAL : AUTOMATIC;
-      Logger::debug("setting PID mode to %s",onOff ? "AUTOMATIC" : "MANUAL");
+      Serial.print("setting PID mode to %s",onOff ? "AUTOMATIC" : "MANUAL");
       rollPID.SetMode(onOff);
       pitchPID.SetMode(onOff);
     }
@@ -124,7 +124,7 @@ void setMode(Mode newMode){
 
     mode = newMode;
 
-    Logger::debug("Mode = %s",modeStrings[mode]);
+    Serial.print("Mode = %s",modeStrings[mode]);
     // blinker.blink(int(mode)+1);
 
     //initialize the mode

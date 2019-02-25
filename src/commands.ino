@@ -114,7 +114,7 @@ int handleSet(int argc, char** argv)
 {
     if (argc == 1)
     {
-        Logger::info("Usage: set <servo> min|mid|max|<angle>");
+        Serial.print("Usage: set <servo> min|mid|max|<angle>");
         return SHELL_RET_FAILURE;
     }
 
@@ -147,14 +147,14 @@ int handleSet(int argc, char** argv)
         }
         else
         {
-            Logger::info("Invalid servo value for Servo #%d. Valid values are (min, mid, max), or a number between %d and %d.", srv, SERVO_MIN_ANGLE, SERVO_MAX_ANGLE);
-            Logger::info("Usage: set <servo> min|mid|max|<angle>");
+            Serial.print("Invalid servo value for Servo #%d. Valid values are (min, mid, max), or a number between %d and %d.", srv, SERVO_MIN_ANGLE, SERVO_MAX_ANGLE);
+            Serial.print("Usage: set <servo> min|mid|max|<angle>");
         }
     }
     else
     {
-        Logger::info("Invalid Servo number. Servo number must be between 1 and 6.");
-        Logger::info("Usage: set <servo> min|mid|max|<angle>");
+        Serial.print("Invalid Servo number. Servo number must be between 1 and 6.");
+        Serial.print("Usage: set <servo> min|mid|max|<angle>");
     }
     // updateServos();
 
@@ -168,7 +168,7 @@ int handleMSet(int argc, char** argv)
 {
     if (argc == 1)
     {
-        Logger::info("Usage: set <servo> min|mid|max|<microseconds>");
+        Serial.print("Usage: set <servo> min|mid|max|<microseconds>");
         return SHELL_RET_FAILURE;
     }
 
@@ -208,14 +208,14 @@ int handleMSet(int argc, char** argv)
         }
         else
         {
-            Logger::info("Invalid servo value for Servo #%d. Valid values are (min, mid, max), or a number between %d and %d.", srv, SERVO_MIN_US, SERVO_MAX_US);
-            Logger::info("Usage: set <servo> min|mid|max|<angle>");
+            Serial.print("Invalid servo value for Servo #%d. Valid values are (min, mid, max), or a number between %d and %d.", srv, SERVO_MIN_US, SERVO_MAX_US);
+            Serial.print("Usage: set <servo> min|mid|max|<angle>");
         }
     }
     else
     {
-        Logger::info("Invalid Servo number. Servo number must be between 1 and 6.");
-        Logger::info("Usage: set <servo> min|mid|max|<angle>");
+        Serial.print("Invalid Servo number. Servo number must be between 1 and 6.");
+        Serial.print("Usage: set <servo> min|mid|max|<angle>");
     }
 
     return SHELL_RET_SUCCESS;
@@ -229,7 +229,7 @@ int handleHelp(int argc, char** argv)
     int size=*(&commands + 1) - commands;
     for (int i=0; i<size; i++)
     {
-        Logger::info("%s\t\t%s",commands[i].shell_command_string, commands[i].shell_help_string);
+        Serial.print("%s\t\t%s",commands[i].shell_command_string, commands[i].shell_help_string);
     }
     return SHELL_RET_SUCCESS;
 }
@@ -238,7 +238,7 @@ int handleSetAll(int argc, char** argv)
 {
     if (argc == 1)
     {
-        Logger::info("Usage: setall <servo> min|mid|max|<angle>");
+        Serial.print("Usage: setall <servo> min|mid|max|<angle>");
         return SHELL_RET_FAILURE;
     }
 
@@ -285,14 +285,14 @@ int handleSetAll(int argc, char** argv)
             }
             else
             {
-                Logger::info("Invalid servo value for Servo #%d. Valid values are min|mid|max, or a number between %d and %d.", i + 1, SERVO_MIN_ANGLE, SERVO_MAX_ANGLE);
-                Logger::info("Usage: setall min|mid|max|<angle>");
+                Serial.print("Invalid servo value for Servo #%d. Valid values are min|mid|max, or a number between %d and %d.", i + 1, SERVO_MIN_ANGLE, SERVO_MAX_ANGLE);
+                Serial.print("Usage: setall min|mid|max|<angle>");
             }
         }
     }
     else
     {
-        Logger::info("Usage: setall min|mid|max|<angle>");
+        Serial.print("Usage: setall min|mid|max|<angle>");
     }
 
     // updateServos();
@@ -304,7 +304,7 @@ int handleMSetAll(int argc, char** argv)
 {
     if (argc == 1)
     {
-        Logger::info("Usage: msetall min|mid|max|<microseconds>");
+        Serial.print("Usage: msetall min|mid|max|<microseconds>");
         return SHELL_RET_FAILURE;
     }
 
@@ -358,14 +358,14 @@ int handleMSetAll(int argc, char** argv)
             }
             else
             {
-                Logger::info("Invalid servo value for Servo #%d. Valid values are min|mid|max, or a number between %d and %d.", i + 1, SERVO_MIN_US, SERVO_MAX_US);
-                Logger::info("Usage: msetall min|mid|max|<microseconds>");
+                Serial.print("Invalid servo value for Servo #%d. Valid values are min|mid|max, or a number between %d and %d.", i + 1, SERVO_MIN_US, SERVO_MAX_US);
+                Serial.print("Usage: msetall min|mid|max|<microseconds>");
             }
         }
     }
     else
     {
-        Logger::info("Usage: msetall min|mid|max|<microseconds>");
+        Serial.print("Usage: msetall min|mid|max|<microseconds>");
     }
 
     // updateServos();
@@ -375,58 +375,58 @@ int handleMSetAll(int argc, char** argv)
 int handleDump(int argc, char** argv)
 {
 
-    Logger::info("===== Config =====");
-    Logger::info("px = %.3f", PX);
-    Logger::info("ix = %.3f", IX);
-    Logger::info("dx = %.3f", DX);
-    Logger::info("py = %.3f", PY);
-    Logger::info("iy = %.3f", IY);
-    Logger::info("dy = %.3f", DY);
+    Serial.print("===== Config =====");
+    Serial.print("px = %.3f", PX);
+    Serial.print("ix = %.3f", IX);
+    Serial.print("dx = %.3f", DX);
+    Serial.print("py = %.3f", PY);
+    Serial.print("iy = %.3f", IY);
+    Serial.print("dy = %.3f", DY);
 
-    Logger::info("===== Platform =====");
-    Logger::info("platform.sway = %d", stu.getSway());
-    Logger::info("platform.surge = %d", stu.getSurge());
-    Logger::info("platform.heave = %d", stu.getHeave());
-    Logger::info("platform.roll = %.2f", stu.getRoll());
-    Logger::info("platform.pitch = %.2f", stu.getPitch());
-    Logger::info("platform.yaw = %.2f", stu.getYaw());
+    Serial.print("===== Platform =====");
+    Serial.print("platform.sway = %d", stu.getSway());
+    Serial.print("platform.surge = %d", stu.getSurge());
+    Serial.print("platform.heave = %d", stu.getHeave());
+    Serial.print("platform.roll = %.2f", stu.getRoll());
+    Serial.print("platform.pitch = %.2f", stu.getPitch());
+    Serial.print("platform.yaw = %.2f", stu.getYaw());
 
-    Logger::info("\n===== Servos =====");
+    Serial.print("\n===== Servos =====");
     for (int i = 0; i < 6; i++)
     {
 #ifdef ENABLE_SERVOS
-        Logger::info("s%d (physical, setpoint, us) = (%d, %.2f, %.2f)", i, servos[i].read(), sp_servo[i], _toUs(servos[i].read()));
+        Serial.print("s%d (physical, setpoint, us) = (%d, %.2f, %.2f)", i, servos[i].read(), sp_servo[i], _toUs(servos[i].read()));
 #else
-        Logger::info("s%d (physical, setpoint, us) = (N/A, %.2f, N/A)", i, sp_servo[i]);
+        Serial.print("s%d (physical, setpoint, us) = (N/A, %.2f, N/A)", i, sp_servo[i]);
 #endif
     }
 
 #ifdef ENABLE_NUNCHUCK
-    Logger::info("\n===== Nunchuck =====");
-    Logger::info("nunchuck.ok = %d",nc.isOk());
+    Serial.print("\n===== Nunchuck =====");
+    Serial.print("nunchuck.ok = %d",nc.isOk());
     if (nc.isOk())
     {
-        Logger::info("nunchuck.buttons.c = %s",nc.getButtonC() ? "true" : "false");
-        Logger::info("nunchuck.buttons.z = %s",nc.getButtonC() ? "true" : "false");
-        Logger::info("nunchuck.joystick.x = %d",nc.getJoyX());
-        Logger::info("nunchuck.joystick.y = %d",nc.getJoyY());
-        Logger::info("nunchuck.tilt.x = %.2f",nc.getTiltX());
-        Logger::info("nunchuck.tilt.y = %.2f",nc.getTiltY());
-        Logger::info("nunchuck.tilt.z = %.2f",nc.getTiltZ());
-        Logger::info("nunchuck.accel.x = %d",nc.getAccelX());
-        Logger::info("nunchuck.accel.y = %d",nc.getAccelY());
-        Logger::info("nunchuck.accel.z = %d",nc.getAccelZ());
+        Serial.print("nunchuck.buttons.c = %s",nc.getButtonC() ? "true" : "false");
+        Serial.print("nunchuck.buttons.z = %s",nc.getButtonC() ? "true" : "false");
+        Serial.print("nunchuck.joystick.x = %d",nc.getJoyX());
+        Serial.print("nunchuck.joystick.y = %d",nc.getJoyY());
+        Serial.print("nunchuck.tilt.x = %.2f",nc.getTiltX());
+        Serial.print("nunchuck.tilt.y = %.2f",nc.getTiltY());
+        Serial.print("nunchuck.tilt.z = %.2f",nc.getTiltZ());
+        Serial.print("nunchuck.accel.x = %d",nc.getAccelX());
+        Serial.print("nunchuck.accel.y = %d",nc.getAccelY());
+        Serial.print("nunchuck.accel.z = %d",nc.getAccelZ());
     }
   #endif
 
 #ifdef ENABLE_TOUCHSCREEN
-    Logger::info("\n===== Touch screen =====");
+    Serial.print("\n===== Touch screen =====");
 
     TSPoint p = ts.getPoint();
 
-    Logger::info("touchscreen.x = %d",p.x);
-    Logger::info("touchscreen.y = %d",p.y);
-    Logger::info("touchscreen.z = %d",p.z);
+    Serial.print("touchscreen.x = %d",p.x);
+    Serial.print("touchscreen.y = %d",p.y);
+    Serial.print("touchscreen.z = %d",p.z);
   #endif
 
     return SHELL_RET_SUCCESS;
@@ -442,7 +442,7 @@ int handleLog(int argc, char** argv)
 {
     if (argc != 2)
     {
-        Logger::info("Usage: log [TRACE | DEBUG | INFO | WARN | ERROR | FATAL]");
+        Serial.print("Usage: log [TRACE | DEBUG | INFO | WARN | ERROR | FATAL]");
         return SHELL_RET_FAILURE;
     }
 
@@ -454,11 +454,11 @@ int handleLog(int argc, char** argv)
     }
     else if (strncmp(token, "DEBUG", 5) == 0)
     {
-        Logger::level = Logger::DEBUG;
+        Logger::level = Serial.print;
     }
     else if (strncmp(token, "INFO", 4) == 0)
     {
-        Logger::level = Logger::INFO;
+        Logger::level = Serial.print;
     }
     else if (strncmp(token, "WARN", 4) == 0)
     {
@@ -466,7 +466,7 @@ int handleLog(int argc, char** argv)
     }
     else if (strncmp(token, "ERROR", 5) == 0)
     {
-        Logger::level = Logger::ERROR;
+        Logger::level = Serial.print;
     }
     else if (strncmp(token, "FATAL", 5) == 0)
     {
@@ -474,7 +474,7 @@ int handleLog(int argc, char** argv)
     }
     else
     {
-        Logger::info("Usage: log [TRACE | DEBUG | INFO | WARN | ERROR | FATAL]");
+        Serial.print("Usage: log [TRACE | DEBUG | INFO | WARN | ERROR | FATAL]");
         return SHELL_RET_FAILURE;
     }
 
@@ -485,7 +485,7 @@ int handleMoveTo(int argc, char** argv)
 {
     if (argc == 1)
     {
-        Logger::info("Usage: moveto home | <pitch angle> <roll angle>");
+        Serial.print("Usage: moveto home | <pitch angle> <roll angle>");
         return SHELL_RET_FAILURE;
     }
 
@@ -502,7 +502,7 @@ int handleMoveTo(int argc, char** argv)
         pitch = atof(token);
         if (argc < 3)
         {
-            Logger::info("Usage: moveto home | <pitch angle> <roll angle>");
+            Serial.print("Usage: moveto home | <pitch angle> <roll angle>");
             return SHELL_RET_FAILURE;
         }
         token = argv[2];         //roll
@@ -520,7 +520,7 @@ int handlePID(int argc, char** argv)
     char* cmd = argv[0];
     if (argc!=2)
     {
-        Logger::info("Usage: %s <value>",cmd);
+        Serial.print("Usage: %s <value>",cmd);
         return SHELL_RET_FAILURE;
     }
 

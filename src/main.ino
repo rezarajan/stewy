@@ -21,7 +21,6 @@
 #include <Servo.h>
 #include "config.h"
 #include "Platform.h"
-#include "Logger.h"
 
 #ifdef ENABLE_NUNCHUCK
 #include "nunchuck.h"
@@ -150,7 +149,7 @@ void setServoMicros(int i, int micros)
 void setupTouchscreen()
 {
   #ifdef ENABLE_TOUCHSCREEN
-    Logger::debug("Touchscreen ENABLED.");
+    Serial.print("Touchscreen ENABLED.");
     rollPID.SetSampleTime(ROLL_PID_SAMPLE_TIME);
     pitchPID.SetSampleTime(PITCH_PID_SAMPLE_TIME);
     rollPID.SetOutputLimits(ROLL_PID_LIMIT_MIN, ROLL_PID_LIMIT_MAX);
@@ -158,7 +157,7 @@ void setupTouchscreen()
     rollPID.SetMode(AUTOMATIC);
     pitchPID.SetMode(AUTOMATIC);
   #else
-    Logger::debug("Touchscreen DISABLED.");
+    Serial.print("Touchscreen DISABLED.");
   #endif
 }
 
@@ -219,12 +218,12 @@ void setupCommandLine(int bps=9600)
     Serial.begin(bps);
     delay(50);
 
-    Logger::info("Studuino, v1");
-    Logger::info("Built %s, %s",__DATE__, __TIME__);
-    Logger::info("=======================");
+    Serial.print("Studuino, v1");
+    Serial.print("Built %s, %s",__DATE__, __TIME__);
+    Serial.print("=======================");
 
   #ifdef ENABLE_SERIAL_COMMANDS
-    Logger::debug("Command-line is ENABLED.");
+    Serial.print("Command-line is ENABLED.");
 
     shell_init(shell_reader, shell_writer, 0);
 
@@ -236,13 +235,13 @@ void setupCommandLine(int bps=9600)
 
         for (int i = 0; i < ccount; i++)
         {
-            Logger::debug("Registering command: %s",commands[i].shell_command_string);
+            Serial.print("Registering command: %s",commands[i].shell_command_string);
             shell_register(commands[i].shell_program, commands[i].shell_command_string);
         }
     }
   #else
 
-    Logger::debug("Command-line is DISABLED.");
+    Serial.print("Command-line is DISABLED.");
 
   #endif
     delay(100);
@@ -251,20 +250,20 @@ void setupCommandLine(int bps=9600)
 void setupNunchuck()
 {
   #ifdef ENABLE_NUNCHUCK
-    Logger::debug("Nunchuck support is ENABLED.");
+    Serial.print("Nunchuck support is ENABLED.");
 
     nc.begin();
   #else
-    Logger::debug("Nunchuck support is DISABLED.");
+    Serial.print("Nunchuck support is DISABLED.");
   #endif
 }
 
 void setupPS2()
 {
   #ifdef ENABLE_PS2
-    Logger::debug("PS2 support is ENABLED.");
+    Serial.print("PS2 support is ENABLED.");
   #else
-    Logger::debug("PS2 support is DISABLED.");
+    Serial.print("PS2 support is DISABLED.");
   #endif
 }
 

@@ -84,9 +84,9 @@ bool Platform::moveTo(float *servoValues, int sway, int surge, int heave, float 
         if (sqrt(d2) > (ARM_LENGTH + ROD_LENGTH)         //the required virtual arm length is longer than physically possible
             || abs(k / (sqrt(l * l + m * m))) >= 1)           //some other bad stuff happened.
         {               //bad juju.
-            Logger::error("Asymptotic condition at i=%d",i);
-            Logger::info("abs(k/(sqrt(l*l+m*m))) = %.2f",abs(k / (sqrt(l * l + m * m))));
-            Logger::info("sqrt(d2)>(ARM_LENGTH+ROD_LENGTH) = %s",(sqrt(d2) > (ARM_LENGTH + ROD_LENGTH)) ? "true" : "false");
+            Serial.print("Asymptotic condition at i=%d",i);
+            Serial.print("abs(k/(sqrt(l*l+m*m))) = %.2f",abs(k / (sqrt(l * l + m * m))));
+            Serial.print("sqrt(d2)>(ARM_LENGTH+ROD_LENGTH) = %s",(sqrt(d2) > (ARM_LENGTH + ROD_LENGTH)) ? "true" : "false");
 
 #ifdef SLAM
             servo_deg = SERVO_MAX_ANGLE;             //BUG: Not correct. servo_deg should be one of SERVO_MAX_ANGLE or SERVO_MIN_ANGLE. need to figure out which one, rather than assuming SERVO_MAX_ANGLE.

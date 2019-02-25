@@ -60,7 +60,7 @@ void Logger::trace(const char * fmt, ...)
     }
 }
 
-void Logger::debug(const char * fmt, ...)
+void Serial.print(const char * fmt, ...)
 {
     if (DEBUG >= Logger::level)
     {
@@ -71,7 +71,7 @@ void Logger::debug(const char * fmt, ...)
     }
 }
 
-void Logger::info(const char * fmt, ...)
+void Serial.print(const char * fmt, ...)
 {
     if (INFO >= Logger::level)
     {
@@ -93,7 +93,7 @@ void Logger::warn(const char * fmt, ...)
     }
 }
 
-void Logger::error(const char * fmt, ...)
+void Serial.print(const char * fmt, ...)
 {
     if (ERROR >= Logger::level)
     {
