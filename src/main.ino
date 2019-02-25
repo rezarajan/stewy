@@ -297,7 +297,7 @@ void loop()
 
 #ifdef ENABLE_NUNCHUCK
     processNunchuck();
-    blinker.loop();
+    // blinker.loop();
 #endif
 
 #ifdef ENABLE_PS2

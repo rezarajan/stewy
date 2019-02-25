@@ -248,7 +248,7 @@ void setMode(Mode newMode)
         mode = newMode;
 
         Logger::debug("Mode = %s",modeStrings[mode]);
-        blinker.blink(int(mode)+1);
+        // blinker.blink(int(mode)+1);
 
         //initialize the mode
         sp_speed = DEFAULT_SPEED;         //reset to default speed.
