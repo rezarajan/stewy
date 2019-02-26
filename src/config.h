@@ -196,12 +196,12 @@ float sp_radius;                 //radius, for modes that need a radius. For CIR
 // Geometry of the platform.
 
 #define THETA_P_DEG     45.25     //Platform joint angle (degrees) offset from AXIS[1|2|3]. A value of zero puts these joints directly on the axes
-#define THETA_B_DEG     24.5      //Base Servo pinion angle (degrees) offset from AXIS[1|2|3]. A value of zero puts the servo pinion directly on the axes
+#define THETA_B_DEG     25.52      //Base Servo pinion angle (degrees) offset from AXIS[1|2|3]. A value of zero puts the servo pinion directly on the axes
 #define THETA_P         (THETA_P_DEG * PI / 180)  //Theta P, in radians
 #define THETA_B         (THETA_B_DEG * PI / 180)  //Theta B, in radians
 #define P_RAD           50        //Platform radius (mm). The distance from the center of the platform to the center of one platform / pushrod "joint". This should be the same for all six pushrods.
-#define B_RAD           80.2      //Base radius (mm). Distance from the center of the base plate to the center of one servo pinion gear. Again, this should be the same for all six servos.
-#define ARM_LENGTH      25        //Servo arm length (mm). Distance from the center of the servo pivot to the center of the pushrod pivot on the servo arm.
+#define B_RAD           90.71      //Base radius (mm). Distance from the center of the base plate to the center of one servo pinion gear. Again, this should be the same for all six servos.
+#define ARM_LENGTH      15.875        //Servo arm length (mm). Distance from the center of the servo pivot to the center of the pushrod pivot on the servo arm.
 #define ROD_LENGTH      155       //Push rod length (mm). Distance between pushrod ball joints (servo to platform).
 #define Z_HOME          148       //Default Z height of the platform (above the base), with servo arms horizontal. Formally, the distance from the plane described by the collection of servo pinion gear centers, to the plane described by the collection of platform / pushrod joints.
 

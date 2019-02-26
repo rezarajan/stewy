@@ -17,7 +17,8 @@
  */
 
 //=== Includes
-#include <Servo.h>
+// #include <Servo.h>
+#include <Adafruit_PWMServoDriver.h>
 #include "config.h"
 #include "Platform.h"
 
@@ -29,6 +30,7 @@
 asm (".global _printf_float");
 // this is the magic trick for scanf to support float
 asm (".global _scanf_float");
+Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
 //=== Actual code
 
@@ -37,7 +39,7 @@ xy_coordf setpoint = DEFAULT_SETPOINT;
 Platform stu;            // Stewart platform object.
 
 #ifdef ENABLE_SERVOS
-Servo servos[6];        // servo objects.
+//Servo servos[6];        // servo objects.
 #endif
 
 float sp_servo[6];      // servo setpoints in degrees, between SERVO_MIN_ANGLE and SERVO_MAX_ANGLE.
@@ -45,6 +47,11 @@ float sp_servo[6];      // servo setpoints in degrees, between SERVO_MIN_ANGLE a
 float _toUs(int value)
 {
     return map(value, SERVO_MIN_ANGLE, SERVO_MAX_ANGLE, SERVO_MIN_US, SERVO_MAX_US);
+}
+
+float _toAda(int value)
+{
+    return map(value, SERVO_MIN_ANGLE, SERVO_MAX_ANGLE, 175, 475);
 }
 
 float _toAngle(float value)
@@ -71,17 +78,20 @@ void updateServos()
         }
 
         //translate angle to pulse width
-        val = _toUs(val);
-
+       // val = _toUs(val);
+        val = _toAda(val);
         if (val != sValues[i])
         {
             //don't write to the servo if you don't have to.
             sValues[i] = val;
+            Serial.print("Servos Updated");
             // Serial.print("SRV: s%d = %.2f + %d (value + trim)", i, val, SERVO_TRIM[i]);
 
 #ifdef ENABLE_SERVOS
-            servos[i].writeMicroseconds((int)constrain(val + SERVO_TRIM[i], SERVO_MIN_US, SERVO_MAX_US));
+            pwm.setPWM(i+1, 0, val);
+           //servos[i].writeMicroseconds((int)constrain(val + SERVO_TRIM[i], SERVO_MIN_US, SERVO_MAX_US));
 #endif
+
         }
     }
 }
@@ -97,11 +107,11 @@ void setServo(int i, int angle)
     if (val >= SERVO_MIN_ANGLE && val <= SERVO_MAX_ANGLE)
     {
         sp_servo[i] = val;
-        // Serial.print("setServo %d - %.2f degrees", i, sp_servo[i]);
+        Serial.println("setServo called for valid");
     }
     else
     {
-        // Serial.print("setServo: Invalid value '%.2f' specified for servo #%d. Valid range is %d to %d degrees.", val, i, SERVO_MIN_ANGLE, SERVO_MAX_ANGLE);
+        Serial.println("setServo: Invalid value");
     }
 }
 
@@ -138,7 +148,9 @@ void setupServos()
     for (int i = 0; i < 6; i++)
     {
 #ifdef ENABLE_SERVOS
-        servos[i].attach(SERVO_PINS[i]);
+        // servos[i].attach(SERVO_PINS[i]);
+        pwm.begin();
+        pwm.setPWMFreq(60);  // Analog servos run at ~60 Hz updates
 #endif
         setServo(i, SERVO_MIN_ANGLE);
     }
@@ -154,6 +166,7 @@ void setupServos()
         updateServos();
         delay(10);
     }
+    Serial.println("Setup Servos complete");
 }
 
 void setupPS2()
@@ -168,6 +181,8 @@ void setupPS2()
 void setup()
 {   //config.h
 
+    Serial.begin(9600); // opens serial port, sets data rate to 9600 bps
+    Serial.setTimeout(10); // change default (1000ms) to have faster response time
     pinMode(LED_BUILTIN, OUTPUT);     //power indicator
     digitalWrite(LED_BUILTIN, HIGH);
 
