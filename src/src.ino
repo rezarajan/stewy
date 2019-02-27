@@ -27,9 +27,9 @@
 #endif
 
 // this is the magic trick for printf to support float
-asm (".global _printf_float");
+// asm (".global _printf_float");
 // this is the magic trick for scanf to support float
-asm (".global _scanf_float");
+// asm (".global _scanf_float");
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
 //=== Actual code
@@ -38,9 +38,9 @@ xy_coordf setpoint = DEFAULT_SETPOINT;
 
 Platform stu;            // Stewart platform object.
 
-#ifdef ENABLE_SERVOS
+// #ifdef ENABLE_SERVOS
 //Servo servos[6];        // servo objects.
-#endif
+// #endif
 
 float sp_servo[6];      // servo setpoints in degrees, between SERVO_MIN_ANGLE and SERVO_MAX_ANGLE.
 
@@ -88,6 +88,7 @@ void updateServos()
             // Serial.print("SRV: s%d = %.2f + %d (value + trim)", i, val, SERVO_TRIM[i]);
 
 #ifdef ENABLE_SERVOS
+            // set servo of servo at pin i+1, i.e. pins 1 to 6
             pwm.setPWM(i+1, 0, val);
            //servos[i].writeMicroseconds((int)constrain(val + SERVO_TRIM[i], SERVO_MIN_US, SERVO_MAX_US));
 #endif
