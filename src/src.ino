@@ -51,7 +51,7 @@ float _toUs(int value)
 
 float _toAda(int value)
 {
-    return map(value, SERVO_MIN_ANGLE, SERVO_MAX_ANGLE, 175, 475);
+    return map(value, SERVO_MIN_ANGLE, SERVO_MAX_ANGLE, 195, 465);
 }
 
 float _toAngle(float value)

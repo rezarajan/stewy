@@ -75,8 +75,8 @@ void processPS2()
 //              sprintf(rollString, "Roll: %d", roll);
 //              Serial.println(pitchString);
 //              Serial.println(rollString);
-              float fPitch = map(pitch, 0, 255, MIN_PITCH, MAX_PITCH);
-              float fRoll = map(roll, 0, 255, MIN_ROLL, MAX_ROLL);
+              float fPitch = mapfloat(pitch, 0, 255, MIN_PITCH, MAX_PITCH);
+              float fRoll = mapfloat(roll, 0, 255, MIN_ROLL, MAX_ROLL);
 //              
               stu.moveTo(sp_servo, fPitch, fRoll);
 
@@ -144,3 +144,8 @@ void processPS2()
 #else
     Serial.println("PS2 support is DISABLED.");
 #endif
+
+float mapfloat(long x, long in_min, long in_max, long out_min, long out_max)
+{
+ return (float)(x - in_min) * (out_max - out_min) / (float)(in_max - in_min) + out_min;
+}
