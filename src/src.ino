@@ -170,36 +170,26 @@ void setupServos()
     Serial.println("Setup Servos complete");
 }
 
-void setupPS2()
-{
-  #ifdef ENABLE_PS2
-    Serial.print("PS2 support is ENABLED.");
-  #else
-    Serial.print("PS2 support is DISABLED.");
-  #endif
-}
-
 void setup()
 {   //config.h
 
     Serial.begin(9600); // opens serial port, sets data rate to 9600 bps
-    Serial.setTimeout(10); // change default (1000ms) to have faster response time
+    //Serial.setTimeout(10); // change default (1000ms) to have faster response time
     pinMode(LED_BUILTIN, OUTPUT);     //power indicator
     digitalWrite(LED_BUILTIN, HIGH);
 
     setupPS2();
+    
 
-    setupPlatform();
+//    setupPlatform();
 
-    setupServos();     //Servos come last, because this setup takes the most time...
+//    setupServos();     //Servos come last, because this setup takes the most time...
 }
 
 void loop()
 {
-
-#ifdef ENABLE_PS2
     processPS2();
-#endif
 
-    updateServos();     //Servos come last, because they take the most time.
+delay(100);
+//    updateServos();     //Servos come last, because they take the most time.
 }

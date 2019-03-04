@@ -5,45 +5,85 @@
  */
 #include "ps2.h"
 
-int error = 0;
-int type = 0;
+static int error = 0;
+static int type = 0;
+#include <PS2X_lib.h> // from https://github.com/madsci1016/Arduino-PS2X
+#include "config.h"
+
+/**************************************************
+ *  PS2 controller pin definitions
+ *************************************************/
+#define PS2_SEL        10  //16
+#define PS2_CMD        11  //15
+#define PS2_CLK        12  //17
+#define PS2_DAT        13  //14    
+
+#define RUMBLE false
+#define PRESSURES false
+
+PS2X ps2; // ps2 controller class instance
 // sp_servo is defined in src.ino and passed here // float sp_servo[6]
+// variables to print pitch and roll values
+// Serial monitor messes up without them
+char pitchString[20];
+char rollString[20];
+
+void setupPS2()
+{
+    Serial.println("PS2 support is ENABLED.");
+    delay(500);
+   // initializing PS2 controller
+    error = ps2.config_gamepad(PS2_CLK, PS2_CMD, PS2_SEL, PS2_DAT, false, RUMBLE);
+  
+    type = ps2.readType();
+    switch(type) {
+      case 0: {
+        Serial.println("Unknown Controller type found");
+        delay(500);
+        break;
+        }
+      case 1: {
+        Serial.println("DualShock Controller found");
+        delay(500);
+        break;
+        }
+      case 2: {
+        Serial.println("GuitarHero Controller found");
+        delay(500);
+        break;
+        }
+    case 3:{
+        Serial.println("Wireless Sony DualShock Controller found");
+        delay(500);
+        break;
+      }
+    }
+}
 
 void processPS2()
 {
+  if (error == 0 || (error == 3 && !PRESSURES)) {
+//    Serial.print("Found Controller, configuration successful");
 
-  // initializing PS2 controller
-  error = ps2.config_gamepad(PS2_CLK, PS2_CMD, PS2_SEL, PS2_DAT, pressures, rumble);
+    Serial.println("Processing");
+    ps2.read_gamepad(false, 0);
+    int pitch = ps2.Analog(PSS_RY);
+    int roll = ps2.Analog(PSS_LX);
+    if(roll >= 126 || roll <= 128 &&
+           pitch >= 126 || pitch <= 128)
+    {
+//              // float pitch = map(ps2.Analog(PSS_LX), 0, 255, MIN_PITCH, MAX_PITCH);
+//              // float roll = map(ps2.Analog(PSS_RY), 0, 255, MIN_ROLL, MAX_ROLL);
 
-  type = ps2.readType();
-  switch(type) {
-    case 0:
-      Serial.print("Unknown Controller type found");
-      break;
-    case 1:
-      Serial.print("DualShock Controller found");
-      break;
-    case 2:
-      Serial.print("GuitarHero Controller found");
-      break;
-  case 3:
-      Serial.print("Wireless Sony DualShock Controller found");
-      break;
-  }
-
-  if (!error) {
-    Serial.print("Found Controller, configuration successful");
-
-    if(int(ps2.Analog(PSS_LX)) >= 126 || int(ps2.Analog(PSS_LX)) <= 128 &&
-           int(ps2.Analog(PSS_RY)) >= 126 || int(ps2.Analog(PSS_RY)) <= 128) {
-              double pitch = map(ps2.Analog(PSS_LX), 0, 255, MIN_PITCH, MAX_PITCH);
-              double roll = map(ps2.Analog(PSS_RY), 0, 255, MIN_ROLL, MAX_ROLL);
-
-              stu.moveTo(sp_servo, pitch, roll);
+              sprintf(pitchString, "Pitch: %d", pitch);
+              sprintf(rollString, "Roll: %d", roll);
+              Serial.println(pitchString);
+              Serial.println(rollString);
+////              stu.moveTo(sp_servo, pitch, roll);
     }
     else {
       //move to center if the joysticks are in the neutral position
-      stu.home(sp_servo);
+//      stu.home(sp_servo);
     }
 
 
@@ -92,14 +132,15 @@ void processPS2()
 
   }
   else if(error == 1)
-    Serial.print("No controller found, check wiring");
+    Serial.println("No controller found, check wiring");
   else if(error == 2)
-    Serial.print("Controller found but not accepting commands.");
-  else if(error == 3)
-    Serial.print("Controller refusing to enter Pressures mode, may not support it.");
+    Serial.println("Controller found but not accepting commands.");
+  else if(error == 3 && PRESSURES)
+    Serial.println("Controller refusing to enter Pressures mode, may not support it.");
 
   // Wait a short while
   //  delay(50);
 }
-
+#else
+    Serial.println("PS2 support is DISABLED.");
 #endif
