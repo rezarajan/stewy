@@ -13,10 +13,10 @@ static int type = 0;
 /**************************************************
  *  PS2 controller pin definitions
  *************************************************/
-#define PS2_SEL        10  //16
-#define PS2_CMD        11  //15
-#define PS2_CLK        12  //17
-#define PS2_DAT        13  //14    
+#define PS2_SEL        27  //16
+#define PS2_CMD        25  //15
+#define PS2_CLK        23  //17
+#define PS2_DAT        29  //14    
 
 #define RUMBLE false
 #define PRESSURES false
@@ -75,8 +75,8 @@ void processPS2()
 //              sprintf(rollString, "Roll: %d", roll);
 //              Serial.println(pitchString);
 //              Serial.println(rollString);
-              float fPitch = map(pitch, 0, 255, -60, 60);
-              float fRoll = map(roll, 0, 255, -60, 60);
+              float fPitch = map(pitch, 0, 255, MIN_PITCH, MAX_PITCH);
+              float fRoll = map(roll, 0, 255, MIN_ROLL, MAX_ROLL);
 //              
               stu.moveTo(sp_servo, fPitch, fRoll);
 
@@ -139,7 +139,7 @@ void processPS2()
     Serial.println("Controller refusing to enter Pressures mode, may not support it.");
 
   // Wait a short while
-  //  delay(50);
+    delay(50);
 }
 #else
     Serial.println("PS2 support is DISABLED.");

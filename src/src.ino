@@ -190,7 +190,7 @@ void loop()
 {
     processPS2();
 
-delay(100);
+//delay(100);
     updateServos();     //Servos come last, because they take the most time.
 //    static char buff[30];
 //    for(int i = 0; i < 6; i++){
