@@ -84,7 +84,7 @@ void updateServos()
         {
             //don't write to the servo if you don't have to.
             sValues[i] = val;
-            Serial.print("Servos Updated");
+            // Serial.print("Servos Updated");
             // Serial.print("SRV: s%d = %.2f + %d (value + trim)", i, val, SERVO_TRIM[i]);
 
 #ifdef ENABLE_SERVOS
@@ -108,7 +108,7 @@ void setServo(int i, int angle)
     if (val >= SERVO_MIN_ANGLE && val <= SERVO_MAX_ANGLE)
     {
         sp_servo[i] = val;
-        Serial.println("setServo called for valid");
+//        Serial.println("setServo called for valid");
     }
     else
     {
@@ -181,9 +181,9 @@ void setup()
     setupPS2();
     
 
-//    setupPlatform();
+    setupPlatform();
 
-//    setupServos();     //Servos come last, because this setup takes the most time...
+    setupServos();     //Servos come last, because this setup takes the most time...
 }
 
 void loop()
@@ -191,5 +191,11 @@ void loop()
     processPS2();
 
 delay(100);
-//    updateServos();     //Servos come last, because they take the most time.
+    updateServos();     //Servos come last, because they take the most time.
+//    static char buff[30];
+//    for(int i = 0; i < 6; i++){
+//        sprintf(buff, "Servo Value %d: %d ", i, (int)sp_servo[i]);
+//        Serial.print(buff);
+//    }
+//    Serial.println();
 }

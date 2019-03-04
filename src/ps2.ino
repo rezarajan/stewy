@@ -65,25 +65,25 @@ void processPS2()
   if (error == 0 || (error == 3 && !PRESSURES)) {
 //    Serial.print("Found Controller, configuration successful");
 
-    Serial.println("Processing");
     ps2.read_gamepad(false, 0);
     int pitch = ps2.Analog(PSS_RY);
     int roll = ps2.Analog(PSS_LX);
     if(roll >= 126 || roll <= 128 &&
            pitch >= 126 || pitch <= 128)
     {
-//              // float pitch = map(ps2.Analog(PSS_LX), 0, 255, MIN_PITCH, MAX_PITCH);
-//              // float roll = map(ps2.Analog(PSS_RY), 0, 255, MIN_ROLL, MAX_ROLL);
+//              sprintf(pitchString, "Pitch: %d", pitch);
+//              sprintf(rollString, "Roll: %d", roll);
+//              Serial.println(pitchString);
+//              Serial.println(rollString);
+              float fPitch = map(pitch, 0, 255, -60, 60);
+              float fRoll = map(roll, 0, 255, -60, 60);
+//              
+              stu.moveTo(sp_servo, fPitch, fRoll);
 
-              sprintf(pitchString, "Pitch: %d", pitch);
-              sprintf(rollString, "Roll: %d", roll);
-              Serial.println(pitchString);
-              Serial.println(rollString);
-////              stu.moveTo(sp_servo, pitch, roll);
     }
     else {
       //move to center if the joysticks are in the neutral position
-//      stu.home(sp_servo);
+      stu.home(sp_servo);
     }
 
 
