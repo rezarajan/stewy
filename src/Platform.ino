@@ -78,22 +78,19 @@ bool Platform::moveTo(float *servoValues, int sway, int surge, int heave, float 
         m = 2 * ARM_LENGTH * (cos(THETA_S[i]) * (pivot_x - B_COORDS[i][0]) + sin(THETA_S[i]) * (pivot_y - B_COORDS[i][1]));
         servo_rad = asin(k / sqrt(l * l + m * m)) - atan(m / l);
         //convert radians to an angle between SERVO_MIN_ANGLE and SERVO_MAX_ANGLE
-        servo_deg = map(degrees(servo_rad),-90,90,SERVO_MIN_ANGLE,SERVO_MAX_ANGLE);
+        servo_deg = map(degrees(servo_rad),-M_PI/2, M_PI/2,SERVO_MIN_ANGLE,SERVO_MAX_ANGLE);
+        Serial.println(servo_deg);
 
-        if (sqrt(d2) > (ARM_LENGTH + ROD_LENGTH)         //the required virtual arm length is longer than physically possible
-            || abs(k / (sqrt(l * l + m * m))) >= 1)           //some other bad stuff happened.
+        if (sqrt(d2) > (ARM_LENGTH + ROD_LENGTH))     //the required virtual arm length is longer than physically possible
+//           || abs(k / (sqrt(l * l + m * m))) >= 1)           //some other bad stuff happened.
         {               //bad juju.
-            // Serial.print("Asymptotic condition at i=%d",i);
+//            Serial.print("Asymptotic condition");
             // Serial.print("abs(k/(sqrt(l*l+m*m))) = %.2f",abs(k / (sqrt(l * l + m * m))));
             // Serial.print("sqrt(d2)>(ARM_LENGTH+ROD_LENGTH) = %s",(sqrt(d2) > (ARM_LENGTH + ROD_LENGTH)) ? "true" : "false");
 
-#ifdef SLAM
-            servo_deg = SERVO_MAX_ANGLE;             //BUG: Not correct. servo_deg should be one of SERVO_MAX_ANGLE or SERVO_MIN_ANGLE. need to figure out which one, rather than assuming SERVO_MAX_ANGLE.
-#else
             // bOk = false;
             //do nothing with this servo. We assume that it's current position is "close enough" (Not sure this is safe, but so far it works).
             servo_deg=servoValues[i];
-#endif
             break;
         }
         else if (servo_deg > SERVO_MAX_ANGLE)
@@ -106,6 +103,10 @@ bool Platform::moveTo(float *servoValues, int sway, int surge, int heave, float 
         }
 
         servoValues[i] = servo_deg;
+//        Serial.print("Servo Value");
+//        Serial.print(i);
+//        Serial.print(" ");
+//       Serial.println(servoValues[i]);
     }
 
     if (bOk)

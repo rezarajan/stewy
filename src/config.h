@@ -38,8 +38,8 @@
 //Which servos are reversed. 1 = reversed, 0 = normal.
 const int SERVO_REVERSE[6] = {0, 1, 0, 1, 0, 1};
 
-#define SERVO_MIN_ANGLE     0
-#define SERVO_MAX_ANGLE     360
+#define SERVO_MIN_ANGLE     -50
+#define SERVO_MAX_ANGLE     50
 const int SERVO_MID_ANGLE = SERVO_MIN_ANGLE + (SERVO_MAX_ANGLE - SERVO_MIN_ANGLE) / 2;
 
 #define SERVO_MIN_US        755
@@ -80,12 +80,12 @@ const xy_coordf DEFAULT_SETPOINT = {0,0};
    ideal conditions (eg: max for roll when pitch is zero).
  */
 
-#define MIN_PITCH  -20
-#define MAX_PITCH  23
+#define MIN_PITCH  -15
+#define MAX_PITCH  15
 const int PITCH_BAND = MAX_PITCH - MIN_PITCH;
 
-#define MIN_ROLL   -23
-#define MAX_ROLL   20
+#define MIN_ROLL   -15
+#define MAX_ROLL   15
 const int ROLL_BAND = MAX_ROLL - MIN_ROLL;
 
 #define MIN_YAW   -69
@@ -202,8 +202,8 @@ float sp_radius;                 //radius, for modes that need a radius. For CIR
 #define P_RAD           85.09        //Platform radius (mm). The distance from the center of the platform to the center of one platform / pushrod "joint". This should be the same for all six pushrods.
 #define B_RAD           85.09      //Base radius (mm). Distance from the center of the base plate to the center of one servo pinion gear. Again, this should be the same for all six servos.
 #define ARM_LENGTH      17        //Servo arm length (mm). Distance from the center of the servo pivot to the center of the pushrod pivot on the servo arm.
-#define ROD_LENGTH      130       //Push rod length (mm). Distance between pushrod ball joints (servo to platform).
-#define Z_HOME          128       //Default Z height of the platform (above the base), with servo arms horizontal. Formally, the distance from the plane described by the collection of servo pinion gear centers, to the plane described by the collection of platform / pushrod joints.
+#define ROD_LENGTH      125       //Push rod length (mm). Distance between pushrod ball joints (servo to platform).
+#define Z_HOME          113.5       //Default Z height of the platform (above the base), with servo arms horizontal. Formally, the distance from the plane described by the collection of servo pinion gear centers, to the plane described by the collection of platform / pushrod joints.
 
 /*
    If defined, the IK algorithm will "slam" values to min or max when it encounters
@@ -213,7 +213,6 @@ float sp_radius;                 //radius, for modes that need a radius. For CIR
    If NOT defined, the IK algorithm will simply refuse to modify ANY servo endpoints
    when it encounters an asymptotic condition.
  */
-// #define SLAM
 
 /*
    Prescalar to the output of the platform IK solution for each servo.

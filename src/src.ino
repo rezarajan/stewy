@@ -198,4 +198,5 @@ void loop()
 //        Serial.print(buff);
 //    }
 //    Serial.println();
+delay(50);
 }
