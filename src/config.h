@@ -195,8 +195,8 @@ float sp_radius;                 //radius, for modes that need a radius. For CIR
 
 // Geometry of the platform.
 
-#define THETA_P_DEG     47     //Platform joint angle (degrees) offset from AXIS[1|2|3]. A value of zero puts these joints directly on the axes
-#define THETA_B_DEG     24.5      //Base Servo pinion angle (degrees) offset from AXIS[1|2|3]. A value of zero puts the servo pinion directly on the axes
+#define THETA_P_DEG     49.68     //Platform joint angle (degrees) offset from AXIS[1|2|3]. A value of zero puts these joints directly on the axes
+#define THETA_B_DEG     24.07      //Base Servo pinion angle (degrees) offset from AXIS[1|2|3]. A value of zero puts the servo pinion directly on the axes
 #define THETA_P         (THETA_P_DEG * PI / 180)  //Theta P, in radians
 #define THETA_B         (THETA_B_DEG * PI / 180)  //Theta B, in radians
 #define P_RAD           85.09        //Platform radius (mm). The distance from the center of the platform to the center of one platform / pushrod "joint". This should be the same for all six pushrods.
@@ -220,7 +220,7 @@ float sp_radius;                 //radius, for modes that need a radius. For CIR
    NOTE: Even with prescalar set, the solution will never fall outside the range of
    [SERVO_ANGLE_MIN .. SERVO_ANGLE_MAX]
  */
-#define SERVO_PRESCALAR       1.5F
+#define SERVO_PRESCALAR       2.0F
 
 /*
    There are three axes of symmetry (AXIS1, AXIS2, AXIS3). Looking down on the

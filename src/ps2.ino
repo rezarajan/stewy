@@ -67,17 +67,17 @@ void processPS2()
 
     ps2.read_gamepad(false, 0);
     int pitch = ps2.Analog(PSS_RY);
-    int roll = ps2.Analog(PSS_LX);
+    int roll = ps2.Analog(PSS_RX);
     if(roll >= 126 || roll <= 128 &&
            pitch >= 126 || pitch <= 128)
     {
-//              sprintf(pitchString, "Pitch: %d", pitch);
-//              sprintf(rollString, "Roll: %d", roll);
-//              Serial.println(pitchString);
-//              Serial.println(rollString);
+              // sprintf(pitchString, "Pitch: %d", pitch);
+              // sprintf(rollString, "Roll: %d", roll);
+              // Serial.println(pitchString);
+              // Serial.println(rollString);
               float fPitch = mapfloat(pitch, 0, 255, MIN_PITCH, MAX_PITCH);
               float fRoll = mapfloat(roll, 0, 255, MIN_ROLL, MAX_ROLL);
-//              
+
               stu.moveTo(sp_servo, fPitch, fRoll);
 
     }
