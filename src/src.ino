@@ -177,6 +177,7 @@ void setup()
     //Serial.setTimeout(10); // change default (1000ms) to have faster response time
     pinMode(LED_BUILTIN, OUTPUT);     //power indicator
     digitalWrite(LED_BUILTIN, HIGH);
+    Wire.setClock(400000);
 
     setupPS2();
     
@@ -198,5 +199,5 @@ void loop()
 //        Serial.print(buff);
 //    }
 //    Serial.println();
-delay(50);
+//delay(50);
 }

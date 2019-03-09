@@ -38,8 +38,8 @@
 //Which servos are reversed. 1 = reversed, 0 = normal.
 const int SERVO_REVERSE[6] = {0, 1, 0, 1, 0, 1};
 
-#define SERVO_MIN_ANGLE     -50
-#define SERVO_MAX_ANGLE     50
+#define SERVO_MIN_ANGLE     -80
+#define SERVO_MAX_ANGLE     80
 const int SERVO_MID_ANGLE = SERVO_MIN_ANGLE + (SERVO_MAX_ANGLE - SERVO_MIN_ANGLE) / 2;
 
 #define SERVO_MIN_US        755
@@ -80,13 +80,22 @@ const xy_coordf DEFAULT_SETPOINT = {0,0};
    ideal conditions (eg: max for roll when pitch is zero).
  */
 
-#define MIN_PITCH  -15
-#define MAX_PITCH  15
-const int PITCH_BAND = MAX_PITCH - MIN_PITCH;
+#define VELOCITY_CONTROL
+#ifndef VELOCITY_CONTROL
+#define POSITION_CONTROL  // default to position control
+#endif
 
-#define MIN_ROLL   -15
-#define MAX_ROLL   15
+#define MIN_PITCH  -20
+#define MAX_PITCH  20
+const int PITCH_BAND = MAX_PITCH - MIN_PITCH;
+#define MIN_PITCH_RATE -3
+#define MAX_PITCH_RATE 3
+
+#define MIN_ROLL   -20
+#define MAX_ROLL   20
 const int ROLL_BAND = MAX_ROLL - MIN_ROLL;
+#define MIN_ROLL_RATE -3
+#define MAX_ROLL_RATE 3
 
 #define MIN_YAW   -69
 #define MAX_YAW   69
@@ -195,15 +204,15 @@ float sp_radius;                 //radius, for modes that need a radius. For CIR
 
 // Geometry of the platform.
 
-#define THETA_P_DEG     49.68     //Platform joint angle (degrees) offset from AXIS[1|2|3]. A value of zero puts these joints directly on the axes
-#define THETA_B_DEG     24.07      //Base Servo pinion angle (degrees) offset from AXIS[1|2|3]. A value of zero puts the servo pinion directly on the axes
+#define THETA_P_DEG     45.25     //Platform joint angle (degrees) offset from AXIS[1|2|3]. A value of zero puts these joints directly on the axes
+#define THETA_B_DEG     24.5      //Base Servo pinion angle (degrees) offset from AXIS[1|2|3]. A value of zero puts the servo pinion directly on the axes
 #define THETA_P         (THETA_P_DEG * PI / 180)  //Theta P, in radians
 #define THETA_B         (THETA_B_DEG * PI / 180)  //Theta B, in radians
-#define P_RAD           85.09        //Platform radius (mm). The distance from the center of the platform to the center of one platform / pushrod "joint". This should be the same for all six pushrods.
+#define P_RAD           55.09        //Platform radius (mm). The distance from the center of the platform to the center of one platform / pushrod "joint". This should be the same for all six pushrods.
 #define B_RAD           85.09      //Base radius (mm). Distance from the center of the base plate to the center of one servo pinion gear. Again, this should be the same for all six servos.
-#define ARM_LENGTH      17        //Servo arm length (mm). Distance from the center of the servo pivot to the center of the pushrod pivot on the servo arm.
-#define ROD_LENGTH      125       //Push rod length (mm). Distance between pushrod ball joints (servo to platform).
-#define Z_HOME          113.5       //Default Z height of the platform (above the base), with servo arms horizontal. Formally, the distance from the plane described by the collection of servo pinion gear centers, to the plane described by the collection of platform / pushrod joints.
+#define ARM_LENGTH      25        //Servo arm length (mm). Distance from the center of the servo pivot to the center of the pushrod pivot on the servo arm.
+#define ROD_LENGTH      160       //Push rod length (mm). Distance between pushrod ball joints (servo to platform).
+#define Z_HOME          152       //Default Z height of the platform (above the base), with servo arms horizontal. Formally, the distance from the plane described by the collection of servo pinion gear centers, to the plane described by the collection of platform / pushrod joints.
 
 /*
    If defined, the IK algorithm will "slam" values to min or max when it encounters

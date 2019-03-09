@@ -62,31 +62,63 @@ void setupPS2()
 
 void processPS2()
 {
-  if (error == 0 || (error == 3 && !PRESSURES)) {
+    if (error == 0 || (error == 3 && !PRESSURES)) {
 //    Serial.print("Found Controller, configuration successful");
-
+      static float fPitch = 0.0;
+      static float fRoll = 0.0;
     ps2.read_gamepad(false, 0);
     int pitch = ps2.Analog(PSS_RY);
-    int roll = ps2.Analog(PSS_LY);
+    int roll = ps2.Analog(PSS_RX);
 
     if(roll <= 125 || roll >= 129 ||
        pitch <= 126 || pitch >= 129)
     {
-              
-              float fPitch = mapfloat(pitch, 0, 255, MIN_PITCH, MAX_PITCH);
-              float fRoll = mapfloat(roll, 0, 255, MIN_ROLL, MAX_ROLL);
+ #if defined(POSITION_CONTROL)
+
+              fPitch = mapfloat(pitch, 0, 255, MIN_PITCH, MAX_PITCH);
+              fRoll = mapfloat(roll, 0, 255, MIN_ROLL, MAX_ROLL);
 //              sprintf(pitchString, "Pitch: %d", (int)fPitch);
 //              sprintf(rollString, "Roll: %d", (int)fRoll);
 //              Serial.println(pitchString);
 //              Serial.println(rollString);
-              stu.moveTo(sp_servo, fPitch, fRoll);
-
+#elif defined(VELOCITY_CONTROL)
+              float fPitchRate = mapfloat(pitch, 0, 255, MIN_PITCH_RATE, MAX_PITCH_RATE);
+              float fRollRate = mapfloat(roll, 0, 255, MIN_ROLL_RATE, MAX_ROLL_RATE);
+              fPitch += fPitchRate;
+              fRoll += fRollRate;
+              fPitch = constrain(fPitch, MIN_PITCH, MAX_PITCH);
+              fRoll = constrain(fRoll, MIN_ROLL, MAX_ROLL);
+//              Serial.println(fRoll);
+#endif
+      stu.moveTo(sp_servo, fPitch, fRoll);
     }
     else {
+#if defined(POSITION_CONTROL)
       //move to center if the joysticks are in the neutral position
       stu.home(sp_servo);
+#elif defined(VELOCITY_CONTROL)
+      if(fPitch < 0)
+      {
+        fPitch += MAX_PITCH_RATE;
+        fPitch = min(fPitch, 0);
+      }
+      else
+      {
+        fPitch -= MAX_PITCH_RATE;
+        fPitch = max(fPitch, 0);
+      }
+      if(fRoll < 0)
+      {
+        fRoll += MAX_ROLL_RATE;
+        fRoll = min(fRoll, 0);
+      }
+      else{
+        fRoll -= MAX_ROLL_RATE; 
+        fRoll = max(fRoll, 0);
+      }
+      stu.moveTo(sp_servo, fPitch, fRoll);
+#endif
     }
-
 
     // switch (mode) {
 
@@ -130,7 +162,6 @@ void processPS2()
     //     }
     //     break;
     // }
-
   }
   else if(error == 1)
     Serial.println("No controller found, check wiring");
