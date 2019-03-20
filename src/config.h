@@ -88,14 +88,14 @@ const xy_coordf DEFAULT_SETPOINT = {0,0};
 #define MIN_PITCH  -20
 #define MAX_PITCH  20
 const int PITCH_BAND = MAX_PITCH - MIN_PITCH;
-#define MIN_PITCH_RATE -3
-#define MAX_PITCH_RATE 3
+#define MIN_PITCH_RATE -1
+#define MAX_PITCH_RATE 1
 
 #define MIN_ROLL   -20
 #define MAX_ROLL   20
 const int ROLL_BAND = MAX_ROLL - MIN_ROLL;
-#define MIN_ROLL_RATE -3
-#define MAX_ROLL_RATE 3
+#define MIN_ROLL_RATE -1
+#define MAX_ROLL_RATE 1
 
 #define MIN_YAW   -69
 #define MAX_YAW   69
@@ -210,9 +210,9 @@ float sp_radius;                 //radius, for modes that need a radius. For CIR
 #define THETA_B         (THETA_B_DEG * PI / 180)  //Theta B, in radians
 #define P_RAD           55.09        //Platform radius (mm). The distance from the center of the platform to the center of one platform / pushrod "joint". This should be the same for all six pushrods.
 #define B_RAD           85.09      //Base radius (mm). Distance from the center of the base plate to the center of one servo pinion gear. Again, this should be the same for all six servos.
-#define ARM_LENGTH      25        //Servo arm length (mm). Distance from the center of the servo pivot to the center of the pushrod pivot on the servo arm.
-#define ROD_LENGTH      160       //Push rod length (mm). Distance between pushrod ball joints (servo to platform).
-#define Z_HOME          152       //Default Z height of the platform (above the base), with servo arms horizontal. Formally, the distance from the plane described by the collection of servo pinion gear centers, to the plane described by the collection of platform / pushrod joints.
+#define ARM_LENGTH      17        //Servo arm length (mm). Distance from the center of the servo pivot to the center of the pushrod pivot on the servo arm.
+#define ROD_LENGTH      170       //Push rod length (mm). Distance between pushrod ball joints (servo to platform).
+#define Z_HOME          162       //Default Z height of the platform (above the base), with servo arms horizontal. Formally, the distance from the plane described by the collection of servo pinion gear centers, to the plane described by the collection of platform / pushrod joints.
 
 /*
    If defined, the IK algorithm will "slam" values to min or max when it encounters
