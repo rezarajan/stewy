@@ -16,11 +16,12 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <Arduino.h>
 // #include <Blinker.h>
 
 #ifndef __STU_CONFIG_H__
 #define __STU_CONFIG_H__
+
+#include <Arduino.h>
 
 // #define ENABLE_SERIAL_COMMANDS    //Comment out, to omit Command shell code.
 // #define ENABLE_NUNCHUCK           //Comment out, to omit Nunchuck code.
@@ -84,6 +85,20 @@ const xy_coordf DEFAULT_SETPOINT = {0,0};
 #ifndef VELOCITY_CONTROL
 #define POSITION_CONTROL  // default to position control
 #endif
+
+#define PROP_VALUE 0
+#define DERIVATIVE_VALUE 1
+#define INTEGRAL_VALUE 2
+
+#define PID_P_ROLL  1
+#define PID_P_PITCH 1
+#define PID_D_ROLL  1
+#define PID_D_PITCH 1
+#define PID_I_ROLL  1
+#define PID_I_PITCH 1
+
+#define ROLL_VALUE 0
+#define PITCH_VALUE 1
 
 #define MIN_PITCH  -20
 #define MAX_PITCH  20

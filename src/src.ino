@@ -1,3 +1,4 @@
+
 /*
    stewy
    Copyright (C) 2018  Philippe Desrosiers
@@ -18,13 +19,18 @@
 
 //=== Includes
 // #include <Servo.h>
+
 #include <Adafruit_PWMServoDriver.h>
+
 #include "config.h"
 #include "Platform.h"
+#include "PID.h"
 
 #ifdef ENABLE_PS2
 #include "ps2.h"
 #endif
+
+#include <MPU9250.h>
 
 // this is the magic trick for printf to support float
 // asm (".global _printf_float");
@@ -37,6 +43,7 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 xy_coordf setpoint = DEFAULT_SETPOINT;
 
 Platform stu;            // Stewart platform object.
+MPU9250 imu;            // IMU object
 
 // #ifdef ENABLE_SERVOS
 //Servo servos[6];        // servo objects.
@@ -177,10 +184,18 @@ void setup()
     //Serial.setTimeout(10); // change default (1000ms) to have faster response time
     pinMode(LED_BUILTIN, OUTPUT);     //power indicator
     digitalWrite(LED_BUILTIN, HIGH);
-    Wire.setClock(400000);
+    Wire.begin();
 
+    imu.setup();
+    imu.calibrateAccelGyro();
+
+#ifdef USE_PID_AUTOLEVEL
+    float pValues[2] {PID_P_ROLL, PID_P_PITCH};
+    float iValues[2] {PID_I_ROLL, PID_I_PITCH};
+    float dValues[2] {PID_D_ROLL, PID_D_PITCH};
+    setPIDValues(pValues, iValues, dValues);
+#endif
     setupPS2();
-    
 
     setupPlatform();
 
@@ -189,7 +204,7 @@ void setup()
 
 void loop()
 {
-    processPS2();
+    processPS2(imu);
 
 //delay(100);
     updateServos();     //Servos come last, because they take the most time.

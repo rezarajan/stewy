@@ -4,6 +4,7 @@
    Author: Reza Rajan
  */
 #include "ps2.h"
+#include "PID.h"
 
 static int error = 0;
 static int type = 0;
@@ -60,7 +61,7 @@ void setupPS2()
     }
 }
 
-void processPS2()
+void processPS2(MPU9250& imu)
 {
     if (error == 0 || (error == 3 && !PRESSURES)) {
 //    Serial.print("Found Controller, configuration successful");
@@ -93,11 +94,26 @@ void processPS2()
       stu.moveTo(sp_servo, fPitch, fRoll);
     }
     else {
+
+      imu.update();
+      float sensedRoll = imu.getRoll();
+      float sensedPitch = imu.getPitch();
+      Serial.println(sensedRoll);
 #if defined(POSITION_CONTROL)
       //move to center if the joysticks are in the neutral position
       stu.home(sp_servo);
 #elif defined(VELOCITY_CONTROL)
-      if(fPitch < 0)
+#ifdef USE_PID_AUTOLEVEL
+      imu.update();
+      float sensedRoll = imu.getRoll();
+      float sensedPitch = imu.getPitch();
+      if(abs(sensedRoll) > 0.1 && abs(sensedPitch) > 0.1)
+      {
+        calculatePIDOutput(fRoll, fPitch, 0.0, 0.0, sensedRoll, sensedPitch);
+        stu.moveTo(sp_servo, fPitch, fRoll);
+      }
+#else
+    if(fPitch < 0)
       {
         fPitch += MAX_PITCH_RATE;
         fPitch = min(fPitch, 0);
@@ -117,6 +133,7 @@ void processPS2()
         fRoll = max(fRoll, 0);
       }
       stu.moveTo(sp_servo, fPitch, fRoll);
+#endif
 #endif
     }
 
