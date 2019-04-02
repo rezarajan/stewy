@@ -96,7 +96,7 @@ void updateServos()
 
 #ifdef ENABLE_SERVOS
             // set servo of servo at pin i+1, i.e. pins 1 to 6
-            pwm.setPWM(i+1, 0, val);
+            pwm.setPWM(i, 0, val);
            //servos[i].writeMicroseconds((int)constrain(val + SERVO_TRIM[i], SERVO_MIN_US, SERVO_MAX_US));
 #endif
 
@@ -205,6 +205,15 @@ void setup()
 void loop()
 {
     processPS2(imu);
+//    imu.update();
+//    Serial.print("X: ");
+//    Serial.print(imu.getAcc(0));
+//    Serial.print("  Y: ");
+//    Serial.print(imu.getAcc(1));
+//    int32_t  Za = (int32_t)imu.getAcc(2);
+//    Serial.print("Z: ");
+//    Serial.println(Za);
+
 
 //delay(100);
     updateServos();     //Servos come last, because they take the most time.

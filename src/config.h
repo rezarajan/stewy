@@ -39,8 +39,8 @@
 //Which servos are reversed. 1 = reversed, 0 = normal.
 const int SERVO_REVERSE[6] = {0, 1, 0, 1, 0, 1};
 
-#define SERVO_MIN_ANGLE     -80
-#define SERVO_MAX_ANGLE     80
+#define SERVO_MIN_ANGLE     -60
+#define SERVO_MAX_ANGLE     60
 const int SERVO_MID_ANGLE = SERVO_MIN_ANGLE + (SERVO_MAX_ANGLE - SERVO_MIN_ANGLE) / 2;
 
 #define SERVO_MIN_US        755
@@ -106,8 +106,8 @@ const int PITCH_BAND = MAX_PITCH - MIN_PITCH;
 #define MIN_PITCH_RATE -1
 #define MAX_PITCH_RATE 1
 
-#define MIN_ROLL   -20
-#define MAX_ROLL   20
+#define MIN_ROLL   -15
+#define MAX_ROLL   15
 const int ROLL_BAND = MAX_ROLL - MIN_ROLL;
 #define MIN_ROLL_RATE -1
 #define MAX_ROLL_RATE 1
@@ -226,7 +226,7 @@ float sp_radius;                 //radius, for modes that need a radius. For CIR
 #define P_RAD           55.09        //Platform radius (mm). The distance from the center of the platform to the center of one platform / pushrod "joint". This should be the same for all six pushrods.
 #define B_RAD           85.09      //Base radius (mm). Distance from the center of the base plate to the center of one servo pinion gear. Again, this should be the same for all six servos.
 #define ARM_LENGTH      17        //Servo arm length (mm). Distance from the center of the servo pivot to the center of the pushrod pivot on the servo arm.
-#define ROD_LENGTH      170       //Push rod length (mm). Distance between pushrod ball joints (servo to platform).
+#define ROD_LENGTH      175       //Push rod length (mm). Distance between pushrod ball joints (servo to platform).
 #define Z_HOME          162       //Default Z height of the platform (above the base), with servo arms horizontal. Formally, the distance from the plane described by the collection of servo pinion gear centers, to the plane described by the collection of platform / pushrod joints.
 
 /*

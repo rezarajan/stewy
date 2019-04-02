@@ -83,13 +83,13 @@ bool Platform::moveTo(float *servoValues, int sway, int surge, int heave, float 
         if (sqrt(d2) > (ARM_LENGTH + ROD_LENGTH)   //the required virtual arm length is longer than physically possible
            || abs(k / (sqrt(l * l + m * m))) >= 1)           //some other bad stuff happened.
         {               //bad juju.
-//            Serial.print("Asymptotic condition");
+            Serial.print("Asymptotic condition");
             // Serial.print("abs(k/(sqrt(l*l+m*m))) = %.2f",abs(k / (sqrt(l * l + m * m))));
             // Serial.print("sqrt(d2)>(ARM_LENGTH+ROD_LENGTH) = %s",(sqrt(d2) > (ARM_LENGTH + ROD_LENGTH)) ? "true" : "false");
 
-            // bOk = false;
+             bOk = false;
             //do nothing with this servo. We assume that it's current position is "close enough" (Not sure this is safe, but so far it works).
-            servo_deg=servoValues[i];
+            //servo_deg=servoValues[i];
             break;
         }
         if (servo_deg > SERVO_MAX_ANGLE)

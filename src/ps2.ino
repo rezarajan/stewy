@@ -95,10 +95,6 @@ void processPS2(MPU9250& imu)
     }
     else {
 
-      imu.update();
-      float sensedRoll = imu.getRoll();
-      float sensedPitch = imu.getPitch();
-      Serial.println(sensedRoll);
 #if defined(POSITION_CONTROL)
       //move to center if the joysticks are in the neutral position
       stu.home(sp_servo);
