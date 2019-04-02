@@ -107,9 +107,11 @@ void processPS2(MPU9250& imu)
       imu.update();
       float sensedRoll = imu.getRoll();
       float sensedPitch = imu.getPitch();
-      if(abs(sensedRoll) > 0.1 && abs(sensedPitch) > 0.1)
+      if(abs(sensedRoll) > 0.5 && abs(sensedPitch) > 0.5)
       {
         calculatePIDOutput(fRoll, fPitch, 0.0, 0.0, sensedRoll, sensedPitch);
+        fPitch = constrain(fPitch, MIN_PITCH, MAX_PITCH);
+        fRoll = constrain(fRoll, MIN_ROLL, MAX_ROLL);
         stu.moveTo(sp_servo, fPitch, fRoll);
       }
 #else
