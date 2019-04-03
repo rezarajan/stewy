@@ -73,7 +73,7 @@ void processPS2()
     if(roll <= 125 || roll >= 129 ||
        pitch <= 126 || pitch >= 129)
     {
- #if defined(POSITION_CONTROL)
+       #if defined(POSITION_CONTROL)
 
               fPitch = mapfloat(pitch, 0, 255, MIN_PITCH, MAX_PITCH);
               fRoll = mapfloat(roll, 0, 255, MIN_ROLL, MAX_ROLL);
@@ -81,7 +81,7 @@ void processPS2()
 //              sprintf(rollString, "Roll: %d", (int)fRoll);
 //              Serial.println(pitchString);
 //              Serial.println(rollString);
-#elif defined(VELOCITY_CONTROL)
+       #elif defined(VELOCITY_CONTROL)
               float fPitchRate = mapfloat(pitch, 0, 255, MIN_PITCH_RATE, MAX_PITCH_RATE);
               float fRollRate = mapfloat(roll, 0, 255, MIN_ROLL_RATE, MAX_ROLL_RATE);
               fPitch += fPitchRate;
@@ -89,36 +89,65 @@ void processPS2()
               fPitch = constrain(fPitch, MIN_PITCH, MAX_PITCH);
               fRoll = constrain(fRoll, MIN_ROLL, MAX_ROLL);
 //              Serial.println(fRoll);
-#endif
+      #endif
       stu.moveTo(sp_servo, fPitch, fRoll);
     }
     else {
-#if defined(POSITION_CONTROL)
       //move to center if the joysticks are in the neutral position
-      stu.home(sp_servo);
-#elif defined(VELOCITY_CONTROL)
-      if(fPitch < 0)
-      {
-        fPitch += MAX_PITCH_RATE;
-        fPitch = min(fPitch, 0);
-      }
-      else
-      {
-        fPitch -= MAX_PITCH_RATE;
-        fPitch = max(fPitch, 0);
-      }
-      if(fRoll < 0)
-      {
-        fRoll += MAX_ROLL_RATE;
-        fRoll = min(fRoll, 0);
-      }
-      else{
-        fRoll -= MAX_ROLL_RATE; 
-        fRoll = max(fRoll, 0);
-      }
-      stu.moveTo(sp_servo, fPitch, fRoll);
-#endif
+      #if defined(POSITION_CONTROL)
+        stu.home(sp_servo);
+      #elif defined(VELOCITY_CONTROL)
+        if(fPitch < 0)
+        {
+          fPitch += MAX_PITCH_RATE;
+          fPitch = min(fPitch, 0);
+        }
+        else
+        {
+          fPitch -= MAX_PITCH_RATE;
+          fPitch = max(fPitch, 0);
+        }
+        if(fRoll < 0)
+        {
+          fRoll += MAX_ROLL_RATE;
+          fRoll = min(fRoll, 0);
+        }
+        else{
+          fRoll -= MAX_ROLL_RATE; 
+          fRoll = max(fRoll, 0);
+        }
+        stu.moveTo(sp_servo, fPitch, fRoll);
+      #endif
     }
+
+/* ------ PID Integration ------- */
+//The PID controls the rate
+//If velocity controls are enabled then this will interfere with PID adjustments
+//Thus, velocity controls should be disabled when using a PID
+//Alternatively, PID's may be used to control throttle, but this is not well-suited
+//for this case
+// PID(&Input, &Output, &Setpoint, Kp, Ki, Kd, Direction)
+
+//Specify the links and initial tuning parameters
+//double imuRoll=0, imuPitch=0; //get these from the IMU
+//double PX=1, IX=0, DX=0;
+//double PY=1, IY=0, DY=0;
+//PID rollPID(imuRoll, outputRoll, roll, PX, IX, DX, P_ON_E, DIRECT);
+//PID pitchPID(imuPitch, outputPitch, pitch, PY, IY, DY, P_ON_E, DIRECT);  //REVERSE
+//
+//double newOutX = rollPID.Compute(inputX, setpointX);
+//double newOutY = pitchPID.Compute(inputY, setpointY);
+//
+//if(newOutX != outputX || newOutY != outputY){
+//  outputRoll = newOutX;
+//  outputPitch=newOutY;
+//
+//  float roll = map(outputRoll, ROLL_PID_LIMIT_MIN, ROLL_PID_LIMIT_MAX, MIN_ROLL, MAX_ROLL);
+//  float pitch = map(outputPitch, PITCH_PID_LIMIT_MIN, PITCH_PID_LIMIT_MAX, MIN_PITCH, MAX_PITCH);
+//
+//  stu.moveTo(sp_servo, pitch, roll);
+//}
+/*                                */
 
     // switch (mode) {
 
