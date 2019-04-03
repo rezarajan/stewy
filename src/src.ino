@@ -44,14 +44,17 @@ Platform stu;            // Stewart platform object.
 
 float sp_servo[6];      // servo setpoints in degrees, between SERVO_MIN_ANGLE and SERVO_MAX_ANGLE.
 
+int servo_min[6] = {195, 195, 195, 195, 195, 195};
+int servo_max[6] = {465, 465, 465, 465, 465, 465};
+
 float _toUs(int value)
 {
     return map(value, SERVO_MIN_ANGLE, SERVO_MAX_ANGLE, SERVO_MIN_US, SERVO_MAX_US);
 }
 
-float _toAda(int value)
+float _toAda(int value, int i)
 {
-    return map(value, SERVO_MIN_ANGLE, SERVO_MAX_ANGLE, 195, 465);
+    return map(value, SERVO_MIN_ANGLE, SERVO_MAX_ANGLE, servo_min[i], servo_max[i]);
 }
 
 float _toAngle(float value)
@@ -79,7 +82,7 @@ void updateServos()
 
         //translate angle to pulse width
        // val = _toUs(val);
-        val = _toAda(val);
+        val = _toAda(val, i);
         if (val != sValues[i])
         {
             //don't write to the servo if you don't have to.
