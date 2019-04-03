@@ -27,6 +27,7 @@ PS2X ps2; // ps2 controller class instance
 // Serial monitor messes up without them
 char pitchString[20];
 char rollString[20];
+bool positional_control = false;
 
 void setupPS2()
 {
@@ -70,18 +71,25 @@ void processPS2()
     int pitch = ps2.Analog(PSS_RY);
     int roll = ps2.Analog(PSS_RX);
 
-    if(roll <= 125 || roll >= 129 ||
+    if(ps2.ButtonPressed(PSB_TRIANGLE))
+      positional_control = !positional_control;
+    if(ps2.ButtonPressed(PSB_R3))
+      stu.home(sp_servo);
+
+    else if(roll <= 125 || roll >= 129 ||
        pitch <= 126 || pitch >= 129)
     {
-       #if defined(POSITION_CONTROL)
-
+       if(positional_control)
+       {
               fPitch = mapfloat(pitch, 0, 255, MIN_PITCH, MAX_PITCH);
               fRoll = mapfloat(roll, 0, 255, MIN_ROLL, MAX_ROLL);
 //              sprintf(pitchString, "Pitch: %d", (int)fPitch);
 //              sprintf(rollString, "Roll: %d", (int)fRoll);
 //              Serial.println(pitchString);
 //              Serial.println(rollString);
-       #elif defined(VELOCITY_CONTROL)
+       }
+       else
+       {
               float fPitchRate = mapfloat(pitch, 0, 255, MIN_PITCH_RATE, MAX_PITCH_RATE);
               float fRollRate = mapfloat(roll, 0, 255, MIN_ROLL_RATE, MAX_ROLL_RATE);
               fPitch += fPitchRate;
@@ -89,36 +97,10 @@ void processPS2()
               fPitch = constrain(fPitch, MIN_PITCH, MAX_PITCH);
               fRoll = constrain(fRoll, MIN_ROLL, MAX_ROLL);
 //              Serial.println(fRoll);
-      #endif
+       }
       stu.moveTo(sp_servo, fPitch, fRoll);
     }
-    else {
-      //move to center if the joysticks are in the neutral position
-      #if defined(POSITION_CONTROL)
-        stu.home(sp_servo);
-      #elif defined(VELOCITY_CONTROL)
-        if(fPitch < 0)
-        {
-          fPitch += MAX_PITCH_RATE;
-          fPitch = min(fPitch, 0);
-        }
-        else
-        {
-          fPitch -= MAX_PITCH_RATE;
-          fPitch = max(fPitch, 0);
-        }
-        if(fRoll < 0)
-        {
-          fRoll += MAX_ROLL_RATE;
-          fRoll = min(fRoll, 0);
-        }
-        else{
-          fRoll -= MAX_ROLL_RATE; 
-          fRoll = max(fRoll, 0);
-        }
-        stu.moveTo(sp_servo, fPitch, fRoll);
-      #endif
-    }
+
 
 /* ------ PID Integration ------- */
 //The PID controls the rate

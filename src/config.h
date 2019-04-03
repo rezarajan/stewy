@@ -80,11 +80,6 @@ const xy_coordf DEFAULT_SETPOINT = {0,0};
    ideal conditions (eg: max for roll when pitch is zero).
  */
 
-#define VELOCITY_CONTROL
-#ifndef VELOCITY_CONTROL
-#define POSITION_CONTROL  // default to position control
-#endif
-
 #define MIN_PITCH  -20
 #define MAX_PITCH  20
 const int PITCH_BAND = MAX_PITCH - MIN_PITCH;
