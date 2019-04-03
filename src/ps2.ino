@@ -74,9 +74,13 @@ void processPS2()
     if(ps2.ButtonPressed(PSB_TRIANGLE))
       positional_control = !positional_control;
     if(ps2.ButtonPressed(PSB_R3))
+    {
       stu.home(sp_servo);
+      fPitch = 0.0;
+      fRoll = 0.0;
+      }
 
-    else if(roll <= 125 || roll >= 129 ||
+    if(roll <= 125 || roll >= 129 ||
        pitch <= 126 || pitch >= 129)
     {
        if(positional_control)
